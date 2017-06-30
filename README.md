@@ -6,12 +6,34 @@ The scripts and functions available here facilitate the creation of points norma
 
 The long profile elevation trend of the channel is derived from elevations at the head and mouth of the channel, including also any point observations within the channel. Where the centreline itself has only a known elevation at the head and mouth of its length, the long profile elevation trend is simply linear. The cross-profile is constructed as a second order polynomial, using elevations at either edge (using the nearest observed elevations) and the centreline elevation. The meshing procedure is described in [Williams et al., 2017](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html).
 
-In addition to the scripts, the following are required:
+Image of example surface before...
+
+[1] Point plot
+[2] Surface plot
+
+and after....
+
+[1] Point plot
+[2] Point plot + synth mesh points
+[3] Surface plot
+
+## System requirements
+
+The code is written in R and requires the following libraries to be installed:
+
+## Data Requirements
+
+A series of test data files are available in ./test_data which consist of the following:
 
 * centreline xy coordinates (x,y csv file)
 * elevation observations (x,y,z csv file)
 * land classification grid (channel (1) / not channel (0) raster)
 
+The coordinates within each file must be relative to the same projection - this is not checked.
+
+## Implementation
+
+## Example code
 
 
 
