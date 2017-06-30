@@ -8,14 +8,14 @@ The long profile elevation trend of the channel is derived from elevations at th
 
 Image of example surface before...
 
-[1] Point plot
-[2] Surface plot
+- Point plot
+- Surface plot
 
 and after....
 
-[1] Point plot
-[2] Point plot + synth mesh points
-[3] Surface plot
+- Point plot
+- Point plot + synth mesh points
+- Surface plot
 
 ## System requirements
 
