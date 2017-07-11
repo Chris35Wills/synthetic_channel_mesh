@@ -88,6 +88,11 @@ The coordinates within each file must be relative to the same projection - this 
 
 
 Show examples of how to run code at bottom of each script
+	-- R equivalent of pythons if __name__ == "__main__" is:
+		if (getOption('run.main', default=TRUE)) {
+	 		 main()
+		}
+		
 Show how to call code from a single bash script -- take in inputs? Or suggest that it could be done this way?
  --  to pass args would need some modifications to be made but not too many
 
