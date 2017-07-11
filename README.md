@@ -80,7 +80,7 @@ The coordinates within each file must be relative to the same projection - this 
 	[x]	02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.R 	***
 	[x]	04_restructure_data.py 	***
 	[x]	09_mask_clip.r 	***
-	[ ] 10_get_channel_bank_elevation.py 	***
+	[ ]	10_get_channel_bank_elevation.py 	***
 	
 	[ ] 12c_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
 	[ ] 14_point_to_raster.r + 14_pnt2ras_N.r 
