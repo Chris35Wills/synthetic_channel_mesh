@@ -2,6 +2,7 @@ library(FNN)
 library(sp)
 library(ggplot2)
 library(raster)
+library(foreach)
 
 read_me_df<-function(data_f){
   data=read.csv(data_f)
@@ -185,8 +186,8 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
             centre_y[count]=norm_inst$cl_y[1]
             centre_fids[count]=cl_id
 
-            print(paste0("cl_id nearest to observation: ", cl_id))
-            print(paste0("Nearest observation: ", digitized_centre_depth))
+            # print(paste0("cl_id nearest to observation: ", cl_id))
+            # print(paste0("Nearest observation: ", digitized_centre_depth))
 
           } else if (true_centre==TRUE){
 
@@ -207,7 +208,7 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
             centre_y[count]=true_centre_xy[2]
             centre_fids[count]=cl_id
 
-            print(paste0("Nearest observation: ", true_centre_depth))
+            # print(paste0("Nearest observation: ", true_centre_depth))
 
           }
         }
@@ -318,7 +319,6 @@ cumulative_dist<-function(df, use_cl_xy=FALSE,verbose=1){
   #df$cumulative_dist <- spDistsN1(df, df[1,]) # df[1,] relates to the z variable
   #df=as.data.frame(df)
   
-  library(foreach)
   if (use_cl_xy==FALSE){
     dists=foreach(i = 1:nrow(df), .combine = c ) %do% euc.dist(c(df[i,]$x,df[i,]$y), c(df[i-1,]$x,df[i-1,]$y))
     } else {
