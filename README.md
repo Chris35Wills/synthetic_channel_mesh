@@ -78,18 +78,15 @@ The coordinates within each file must be relative to the same projection - this 
 
 	[x]	01_densify_paths.py 		***		
 	[x]	02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.R 	***
-	[x]	04_restructure_data.py 	***
-	[x]	09_mask_clip.r 	***
-	[x]	10_get_channel_bank_elevation.py 	***
-	[x] 12c_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
-	
+	[x]	03_restructure_data.py 	***
+	[x]	04_mask_clip.r 	***
+	[x]	05_get_channel_bank_elevation.py 	***
+	[x] 06_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
+	[x] 07_point_to_raster.r + 14_pnt2ras_N.r 
+	[ ]	08_get_minimum_surface_from_stack.r
 
 
-	[ ] 14_point_to_raster.r + 14_pnt2ras_N.r 
-	[ ]	14-15c_get_minimum_surface_from_stack.r
-
-
-Show examples of how to run code at bottom of each script
+[ ] Show examples of how to run code at bottom of each script
 	-- R equivalent of pythons if __name__ == "__main__" is:
 		if (getOption('run.main', default=TRUE)) {
 	 		 main()
@@ -97,15 +94,21 @@ Show examples of how to run code at bottom of each script
 
 	see here: https://stackoverflow.com/questions/21383058/is-ifinteractive-an-r-equivalent-to-the-pythonic-if-name-main
 
-Show how to call code from a single bash script 
+[ ] Show how to call code from a single bash script 
 	- see ./scripts/DIY.sh
+	- use the exampls from the bottom of each script
 
-Show how to create a quick look spline overview of the improvements...
+[ ] Show how to create a quick look spline overview of the improvements...
 
-## Example code
+Explain:
+[ ] - true_centre
+[ ] - sensitivity to observations - if anything is available, it will tie to it...
 
-## Toy data
+## Example run
 
+### Toy data and code
+
+	example_script.sh
 	./GitHub/synthetic_channel_mesh/test_data
 	./GitHub/synthetic_channel_mesh/test_outputs
 
