@@ -81,8 +81,8 @@ The coordinates within each file must be relative to the same projection - this 
 	[x]	03_restructure_data.py 	***
 	[x]	04_mask_clip.r 	***
 	[x]	05_get_channel_bank_elevation.py 	***
-	[x] 06_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
-	[x] 07_point_to_raster.r + 14_pnt2ras_N.r 
+	[x]	06_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
+	[x]	07_point_to_raster.r + 14_pnt2ras_N.r 
 	[ ]	08_get_minimum_surface_from_stack.r
 
 
