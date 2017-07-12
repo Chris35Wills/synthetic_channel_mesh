@@ -80,9 +80,11 @@ The coordinates within each file must be relative to the same projection - this 
 	[x]	02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.R 	***
 	[x]	04_restructure_data.py 	***
 	[x]	09_mask_clip.r 	***
-	[ ]	10_get_channel_bank_elevation.py 	***
+	[x]	10_get_channel_bank_elevation.py 	***
+	[x] 12c_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
 	
-	[ ] 12c_channel_parabola_EDGE_ELEVATIONS_piecewise.r *** 
+
+
 	[ ] 14_point_to_raster.r + 14_pnt2ras_N.r 
 	[ ]	14-15c_get_minimum_surface_from_stack.r
 
@@ -92,9 +94,11 @@ Show examples of how to run code at bottom of each script
 		if (getOption('run.main', default=TRUE)) {
 	 		 main()
 		}
-		
-Show how to call code from a single bash script -- take in inputs? Or suggest that it could be done this way?
- --  to pass args would need some modifications to be made but not too many
+
+	see here: https://stackoverflow.com/questions/21383058/is-ifinteractive-an-r-equivalent-to-the-pythonic-if-name-main
+
+Show how to call code from a single bash script 
+	- see ./scripts/DIY.sh
 
 Show how to create a quick look spline overview of the improvements...
 
