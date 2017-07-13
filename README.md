@@ -14,6 +14,10 @@ and after....
 
 <img src="./figs/aoi_with_synth.png" width="500px" />
 
+with the paths implemented...
+
+<img src="./figs/aoi_with_synth_and_paths.png" width="500px" />
+
 ## System requirements
 
 The code is written in both Python and R. Your Python environment requires the following packages:
