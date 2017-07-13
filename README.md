@@ -81,32 +81,32 @@ To summarize, the scripts implement the following:
 	- This creates the synthetic mesh points either side of a channel's centreline.
 
 - 03_restructure_data.py
-+ - Restructure the output of 02*.r, specifying channel sides (required for 04*.py onwards).
+	- Restructure the output of 02*.r, specifying channel sides (required for 04*.py onwards).
 
 - 04_mask_clip.py
-+ - Clips the points and their edges using the land classification mask - this limits overflow of channel normal points where channel does not have clearly defined sides.
+	- Clips the points and their edges using the land classification mask - this limits overflow of channel normal points where channel does not have clearly defined sides.
 
 - 05_get_channel_bank_elevation.py: Step XX  
-+ - Assigns elevations to the synthetic mesh points at the edge of the channel based on the nearest observed points (out of the channel). 
+	- Assigns elevations to the synthetic mesh points at the edge of the channel based on the nearest observed points (out of the channel). 
 
 - 06_channel_parabola_EDGE_ELEVATIONS_piecewise.r 
-+ - assigns elevations to all points within the synthetic mesh.
-+ - elevations at the beginning and end of the channel - the *seed* and *mouth* respectively - can be set either using the nearest neighbour from provided observations within the channel or by being specifically declared.
-+ - for a given cross-section, any other point observations available within the channel are incorporated with the pre-defined edge elevations to calculate a cross channel parabola from which the centreline elevation is extracted.
-+ - the centreline elevations that are set - the mouth, seed and any other nodes close to points (for which a threshold value is set) - are then used to assign elevations to all other centreline nodes, providing elevations along the entire centreline. Where only the seed and mouth are known, this will be linear, otherwise it will be piecewise.
-+ - Parabolas are then calculated for each node using the centreline elevation and prior-set edge elevations, providing elevations across each cross section.
+	- assigns elevations to all points within the synthetic mesh.
+	- elevations at the beginning and end of the channel - the *seed* and *mouth* respectively - can be set either using the nearest neighbour from provided observations within the channel or by being specifically declared.
+	- for a given cross-section, any other point observations available within the channel are incorporated with the pre-defined edge elevations to calculate a cross channel parabola from which the centreline elevation is extracted.
+	- the centreline elevations that are set - the mouth, seed and any other nodes close to points (for which a threshold value is set) - are then used to assign elevations to all other centreline nodes, providing elevations along the entire centreline. Where only the seed and mouth are known, this will be linear, otherwise it will be piecewise.
+	- Parabolas are then calculated for each node using the centreline elevation and prior-set edge elevations, providing elevations across each cross section.
 
 - 07_point_to_raster.r 
-+ - Grids the mesh nodes to a specific resolution, averaging the elevations where multiple cross-sections overlap such as at meanders. 
+	- Grids the mesh nodes to a specific resolution, averaging the elevations where multiple cross-sections overlap such as at meanders. 
 
 - 08_get_minimum_surface_from_stack.r 
-+ - Where multiple synthetic channels have been created within an AOI, overlaps are likely such as at confluences. 
-+ - This combines all of the rasterised synthetic channels, taking the minimum elevation at overlaps, thus preserving deeper channels within a system.
-+ - Returned from this script are raster (geotif) and point xyz (csv) datasets of the combined synthetic dataset.
+	- Where multiple synthetic channels have been created within an AOI, overlaps are likely such as at confluences. 
+	- This combines all of the rasterised synthetic channels, taking the minimum elevation at overlaps, thus preserving deeper channels within a system.
+	- Returned from this script are raster (geotif) and point xyz (csv) datasets of the combined synthetic dataset.
 
 - 09_combine_and_interp.r
-+ - This provides an example of how you can integrate the synthetic points with other observations using simple interpolation to provide a DEM with your synthetic channel - a quick way to compare a surface with and without synthetic intervention.
-+ - More sophisticated interpolation routines should be experimented with - this is just for a visual representation!
+	- This provides an example of how you can integrate the synthetic points with other observations using simple interpolation to provide a DEM with your synthetic channel - a quick way to compare a surface with and without synthetic intervention.
+	- More sophisticated interpolation routines should be experimented with - this is just for a visual representation!
 
 ## Implementation
 
