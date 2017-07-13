@@ -46,8 +46,9 @@ check_rasters_for_all_zeros<-function(ras_path, ras_glob_name){
 	}
 }
 
-get_min_from_stack<-function(raster_path_list, opath){
+get_min_from_stack<-function(raster_path, raster_glob, opath){
 	
+	raster_path_list=ras_files=Sys.glob(paste0(raster_path, raster_glob))
 	ras_stack=stack(raster_path_list) #create raster stack
 
 	#define raster projections
@@ -74,70 +75,24 @@ get_min_from_stack<-function(raster_path_list, opath){
 }
 
 #################
-## IMPLEMENTATION
+# Test AOI
+library(plot3D)
 
-### 79N 
-#ras_path="C:/analysis_outputs_TEMP/Godthabsfjord_SYNTH_output/out_I_and_II_second_attempt/"
-#ras_glob_name="channel_point2ras_agregated_channel_*_res_*m.tif"
-#opath=ras_path
-
-#get_min_from_stack(ras_path, ras_glob_name, opath)
-
-## OLDER
-
-### Godthabsfjord
-ras_path="C:/analysis_outputs_TEMP/Godthabsfjord_SYNTH_output/out_I_and_II/"
-ras_glob_name="channel_point2ras_agregated_channel_*.tif"
-opath="C:/analysis_outputs_TEMP/Godthabsfjord_SYNTH_output/out_I_and_II/"
+raster_path="../test_outputs/"
+raster_glob="channel_point2ras_aggregated_channel_*m.tif"
+opath="../test_outputs/"
 
 get_min_from_stack(ras_path, ras_glob_name, opath)
 
+### Plot data
+ras=raster("../test_outputs/min_channel_dem.tif")
+ras=aggregate(ras, fact=5)
+zData <-round(as.matrix(ras),1)
 
-#set paths
-	#tif_path="C:/GitHub/synthetic_channels/test_output/site_6_meshing_sep_channels/"
-	#opath="C:/GitHub/synthetic_channels/test_output/site_6_meshing_sep_channels/"
-#open rasters
-	#tif=c((capture.output(cat(tif_path, "test_spline_150_m_1200m_every_20_channel_1.tif", sep=""))),
-	#	  (capture.output(cat(tif_path, "test_spline_150_m_1200m_every_20_channel_2.tif", sep=""))),
-	#	  (capture.output(cat(tif_path, "test_spline_150_m_1200m_every_20_channel_3.tif", sep=""))),
-	#	  (capture.output(cat(tif_path, "test_spline_150_m_1200m_every_20_channel_4.tif", sep=""))),
-	#	  (capture.output(cat(tif_path, "test_spline_150_m_1200m_every_20_channel_5.tif", sep=""))))
-
-#### compare to normal raster
-#
-#min_path="C:/GitHub/synthetic_channels/test_output/site_6_meshing_sep_channels/"
-#min=c((capture.output(cat(min_path, "test_spline_150_m_1200m_every_20_.tif", sep=""))))
-#min_dem<-raster(min[1])
-#
-#old_path="C:/GitHub/synthetic_channels/test_output/site_6_meshing/"
-#old=c((capture.output(cat(old_path, "test_spline_150_m_1200m_every_20_.tif", sep=""))))
-#old<-raster(old[1])
-#
-#coords<-"+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
-#projection(min_dem) <- coords
-#projection(old) <- coords
-#
-#uc <- overlay(old, min_path, fun=function(x,y){return(x+y)})
-#
-#fun <- function(r1, r2) { r1 - r2 }
-#rc1 <- calc(old, min_dem, fun)
-#
-#diff<-old-min_dem # positive values where old dem was higher... expected at the inter-channel ridges
-#image(diff)
-#
-#spline_xyz<-rasterToPoints(spline_rst)
-#colnames(spline_xyz)<-c('x','y','z')
-#spline_xyz_df<-as.data.frame(spline_xyz)
-#
-###raster z values as matrix (rather than raster)
-#zData <-round(as.matrix(spline_rst),1)
-#
-#	
-##ofile_name=capture.output(cat("/scratch/glacio1/cw14910/synthetic_channels_SCRATCH/better_dem_3d/test_spline_250_m_1200m_3D_", angle_string, "_deg.png", sep=""))
-#png(ofile_name)
-#angle=120
-#persp3D(z=zData, xlab = "longitude", bty = "g",
-#  	  ylab = "latitude", zlab = "Elevation", clab = "elevation (m a.s.l.)",
-#        expand = 0.09, d = 2, phi = 15, theta = angle, resfac = 5,
-#        colkey = list(side = 2, length = 0.25))
-#dev.off()
+ofile_name=capture.output(cat(opath, "min_channel_3d.png", sep=''))
+png(ofile_name)
+persp3D(z=zData, xlab = "easting", bty = "g",
+  	  ylab = "northing", zlab = "Elevation", clab = "elevation (m a.s.l.)",
+        expand = 0.09, d = 2, phi = 25, theta = 40, resfac = 5,
+        colkey = list(side = 2, length = 0.25))
+dev.off()

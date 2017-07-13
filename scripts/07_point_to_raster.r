@@ -107,7 +107,7 @@ points_to_raster<-function(path, mask_path, mask, opath, glob_extension="", aggF
 
 		this_channel=channels[i]
 		split1=strsplit(this_channel, "path_")[[1]][2]
-		channel_num=strsplit(split1, "_clipped")[[1]][1]
+		channel_num=strsplit(split1, "_normals")[[1]][1]
 		
 		#create empty raster same dimensions as land dem
 		#https://cran.r-project.org/web/packages/raster/vignettes/Raster.pdf
@@ -160,7 +160,7 @@ points_to_raster<-function(path, mask_path, mask, opath, glob_extension="", aggF
 		#aggFactors=c(2,3,4)	#c(4)
 		for (aggFactor in aggFactors){
 			#ras_out= capture.output(cat(opath, "channel_point2ras_agregated_channel_",i,"_aggFactor_", aggFactor,".tif", sep=""))
-			ras_out= capture.output(cat(opath, "channel_point2ras_agregated_channel_",channel_num,"_res_", aggFactor*res(mask)[1], "m.tif", sep=""))
+			ras_out= capture.output(cat(opath, "channel_point2ras_aggregated_channel_",channel_num,"_res_", aggFactor*res(mask)[1], "m.tif", sep=""))
 
 			if (aggFactor>1){
 				aggregate_and_save(point2ras, aggFactor, ras_out)	
