@@ -8,11 +8,11 @@ The long profile elevation trend of the channel is derived from elevations at th
 
 Image of example surface before...
 
-<img src="./figs/aoi_without_synth.png" width="300px" />
+<img src="./figs/aoi_without_synth.png" width="500px" />
 
 and after....
 
-<img src="./figs/aoi_with_synth.png" width="300px" />
+<img src="./figs/aoi_with_synth.png" width="500px" />
 
 ## System requirements
 
