@@ -55,7 +55,7 @@ A series of test data files are available in ./test_data which consist of the fo
 * dist_mask.tif    - a distance raster (distance of channel pixels from non-channel pixels)
 				   - this can be created later on and is provided here for speed
 
-The coordinates within each file must all be in the same projection - this is not checked.
+**The coordinates within each file must all be in the same projection - this is not checked. It is assumed that your coordinates are in metres.**
 
 ## How it works
 
@@ -90,10 +90,11 @@ To summarize, the scripts implement the following:
 	- Assigns elevations to the synthetic mesh points at the edge of the channel based on the nearest observed points (out of the channel). 
 
 - 06_channel_parabola_EDGE_ELEVATIONS_piecewise.r 
-	- assigns elevations to all points within the synthetic mesh.
-	- elevations at the beginning and end of the channel - the *seed* and *mouth* respectively - can be set either using the nearest neighbour from provided observations within the channel or by being specifically declared.
-	- for a given cross-section, any other point observations available within the channel are incorporated with the pre-defined edge elevations to calculate a cross channel parabola from which the centreline elevation is extracted.
-	- the centreline elevations that are set - the mouth, seed and any other nodes close to points (for which a threshold value is set) - are then used to assign elevations to all other centreline nodes, providing elevations along the entire centreline. Where only the seed and mouth are known, this will be linear, otherwise it will be piecewise.
+	- Assigns elevations to all points within the synthetic mesh.
+	- Elevations at the beginning and end of the channel - the *seed* and *mouth* respectively - can be set either using the nearest neighbour from provided observations within the channel or by being specifically declared.
+	- For a given cross-section, any other point observations available within the channel are incorporated with the pre-defined edge elevations to calculate a cross channel parabola from which the centreline elevation is extracted.
+	- The centreline elevations that are set - the mouth, seed and any other nodes close to points (for which a threshold value of 1000 m is set assuming your coordinates are in metres) - are then used to assign elevations to all other centreline nodes, providing elevations along the entire centreline. Where only the seed and mouth are known, this will be linear, otherwise it will be piecewise.
+	- The routine is sensitive to the presence of any observations provided, assuming they are within the search threshold (default is 1000 m assuming your coordinates are in metres).
 	- Parabolas are then calculated for each node using the centreline elevation and prior-set edge elevations, providing elevations across each cross section.
 
 - 07_point_to_raster.r 
@@ -108,6 +109,15 @@ To summarize, the scripts implement the following:
 	- This provides an example of how you can integrate the synthetic points with other observations using simple interpolation to provide a DEM with your synthetic channel - a quick way to compare a surface with and without synthetic intervention.
 	- More sophisticated interpolation routines should be experimented with - this is just for a visual representation!
 
+Various helper functions are held within the following files, also in `./scripts`:
+
+- Linear_referencing.py
+- nearest_neighbour.py
+- util.py
+- channel_parabola.r
+- parabola_funcs_where_obs_available.r
+- plotting.r
+
 ## Implementation
 
 At the bottom of each script is an example of how to run the code using the provided test data (see ./test_data). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
@@ -115,6 +125,8 @@ At the bottom of each script is an example of how to run the code using the prov
 An example of how to run the whole process in bash (assuming your R and python environments are correctly set-up) is provided here:
 
 - ./scripts/DIY.sh
+
+*If you're on windows, you may need to run `dos2unix DIY.sh` first to handle the newline characters.*
 
 ## Example run
 
@@ -134,11 +146,19 @@ The settings currently defined suited the application for which the code was dev
 
 ## To do
 
+[ ] Show how to call code from a single bash script 
+	- see ./scripts/DIY.sh
+	- use the examples from the bottom of each script
+
+[ ] Explain true_centre
+
+[ ] Create release and mint DOI :) -- https://guides.github.com/activities/citable-code/
+	-- do the same for LFMapper too
+	-- add doi ink to README.md
+
 [ ] License - free to use/modify but please reference the Williams2017 paper and/or the code location
 
-[ ] Reset the functions path...
-
-[ ] Show examples of how to run code at bottom of each script
+[x] Show examples of how to run code at bottom of each script
 	-- R equivalent of pythons if __name__ == "__main__" is:
 		if (getOption('run.main', default=TRUE)) {
 	 		 main()
@@ -146,16 +166,7 @@ The settings currently defined suited the application for which the code was dev
 
 	see here: https://stackoverflow.com/questions/21383058/is-ifinteractive-an-r-equivalent-to-the-pythonic-if-name-main
 
-[ ] Show how to call code from a single bash script 
-	- see ./scripts/DIY.sh
-	- use the exampls from the bottom of each script
-
-[ ] Show how to create a quick look spline overview of the improvements...
-		-- DIY.sh
-
-Explain:
-[ ] - true_centre
-[ ] - sensitivity to observations - if anything is available, it will tie to it...
+	
 
 
 
