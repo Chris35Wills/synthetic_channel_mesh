@@ -74,11 +74,11 @@ The synthetic mesh routine consists of the following scripts (all stored in ./sc
 To summarize, the scripts implement the following:
 
 - 01_densify_paths.py
-+ - Creates equally spaced points at a user defined interval based on the centreline input (x,y).
+	- Creates equally spaced points at a user defined interval based on the centreline input (x,y).
 
 - 02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.r
-+ - Calculates points normal to each centreline points relative the vector between points, *x* units either side of a given centreline node - the larger unit x, the smoother the profile (linearising the channel profile to a greater extent). 
-+ - This creates the synthetic mesh points either side of a channel's centreline.
+	- Calculates points normal to each centreline points relative the vector between points, *x* units either side of a given centreline node - the larger unit x, the smoother the profile (linearising the channel profile to a greater extent). 
+	- This creates the synthetic mesh points either side of a channel's centreline.
 
 - 03_restructure_data.py
 + - Restructure the output of 02*.r, specifying channel sides (required for 04*.py onwards).
