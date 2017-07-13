@@ -276,8 +276,10 @@ vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbo
 	cat("****************\n")
 }
 
-
-in_path="../test_outputs/"
-out_path=in_path
-file_glob="densified_*.csv"
-vector_from_norms(in_path, out_path, file_glob=file_glob, dist_between_norm_vertices=50, verbose=FALSE)
+if (getOption('run.main', default=TRUE)) {
+	print("Run from import ... now running code with example code (will fail if earlier scripts in the processing chain have not already been run)")
+	in_path="../test_outputs/"
+	out_path=in_path
+	file_glob="densified_*.csv"
+	vector_from_norms(in_path, out_path, file_glob=file_glob, dist_between_norm_vertices=50, verbose=FALSE)
+}
