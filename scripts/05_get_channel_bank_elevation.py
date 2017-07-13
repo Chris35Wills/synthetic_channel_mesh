@@ -203,6 +203,9 @@ def get_bank_elevation_DRIVER(land_obs, normal_files, search_dist=30000, opath='
 
 if __name__ == "__main__":
 
+	print("Run from import...\n")
+	print("Running with test data now - see ../test_outputs/\n")
+	
 	search_dist=2000 # metres
 
 	path="../test_outputs"

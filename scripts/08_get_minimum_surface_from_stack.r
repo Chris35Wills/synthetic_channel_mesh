@@ -74,25 +74,27 @@ get_min_from_stack<-function(raster_path, raster_glob, opath){
 	cat("I've saved the points here:", pnts_out, "\n")
 }
 
-#################
-# Test AOI
-library(plot3D)
+if (getOption('run.main', default=TRUE)) {
+	print("Run from import ... now running code with example code (will fail if earlier scripts in the processing chain have not already been run)")
+	
+	# Test AOI
+	raster_path="../test_outputs/"
+	raster_glob="channel_point2ras_aggregated_channel_*m.tif"
+	opath="../test_outputs/"
 
-raster_path="../test_outputs/"
-raster_glob="channel_point2ras_aggregated_channel_*m.tif"
-opath="../test_outputs/"
+	get_min_from_stack(ras_path, ras_glob_name, opath)
 
-get_min_from_stack(ras_path, ras_glob_name, opath)
-
-### Plot data
-ras=raster("../test_outputs/min_channel_dem.tif")
-ras=aggregate(ras, fact=5)
-zData <-round(as.matrix(ras),1)
-
-ofile_name=capture.output(cat(opath, "min_channel_3d.png", sep=''))
-png(ofile_name)
-persp3D(z=zData, xlab = "easting", bty = "g",
-  	  ylab = "northing", zlab = "Elevation", clab = "elevation (m a.s.l.)",
-        expand = 0.09, d = 2, phi = 25, theta = 40, resfac = 5,
-        colkey = list(side = 2, length = 0.25))
-dev.off()
+	### Plot data
+	#library(plot3D)
+	#ras=raster("../test_outputs/min_channel_dem.tif")
+	#ras=aggregate(ras, fact=5)
+	#zData <-round(as.matrix(ras),1)
+	#
+	#ofile_name=capture.output(cat(opath, "min_channel_3d.png", sep=''))
+	#png(ofile_name)
+	#persp3D(z=zData, xlab = "easting", bty = "g",
+	#  	  ylab = "northing", zlab = "Elevation", clab = "elevation (m a.s.l.)",
+	#        expand = 0.09, d = 2, phi = 25, theta = 40, resfac = 5,
+	#        colkey = list(side = 2, length = 0.25))
+	#dev.off()
+}

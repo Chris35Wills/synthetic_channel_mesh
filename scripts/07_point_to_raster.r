@@ -256,20 +256,22 @@ resample_rasters<-function(raster_paths, new_cell_size, maskPath){
 
 }
 
-################
-# IMPLEMENTATION
 
-## Test AOI
-# 
-mask_path="../test_data/"
-path="../test_outputs/"
-glob_extension="*___PIECEWISE.csv"
-opath=path
-aoi_mask=paste0(mask_path, "godthabsfjord_mask__CROP.tif")
+if (getOption('run.main', default=TRUE)) {
+	print("Run from import ... now running code with example code (will fail if earlier scripts in the processing chain have not already been run)")
 
-points_to_raster(path, mask_path, aoi_mask, opath, glob_extension=glob_extension, aggFactors=c(1))
+	## Test AOI
+	# 
+	mask_path="../test_data/"
+	path="../test_outputs/"
+	glob_extension="*___PIECEWISE.csv"
+	opath=path
+	aoi_mask=paste0(mask_path, "godthabsfjord_mask__CROP.tif")
 
+	points_to_raster(path, mask_path, aoi_mask, opath, glob_extension=glob_extension, aggFactors=c(1))
 
-## resample_rasters(raster_paths=Sys.glob(paste0(path, glob_extension), 
-##					new_cell_size=500, 
-##					maskPath=aoi_mask)
+	# Optional raster resample - see function for info
+	## resample_rasters(raster_paths=Sys.glob(paste0(path, glob_extension), 
+	##					new_cell_size=500, 
+	##					maskPath=aoi_mask)
+}

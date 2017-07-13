@@ -211,10 +211,14 @@ mask_clipper<-function(path, mask, glob_path="*REARRANGED.csv", limit_different_
 	cat("*********************\n")
 }
 
-# Test data
 
-path="../test_outputs/"
-maskF="../test_data/godthabsfjord_mask__CROP.tif"
-mask=raster(maskF)
-glob_path="*REARRANGED.csv"
-mask_clipper(path, mask, limit_different_edge_lengths=TRUE, diff_factor=2, glob_path=glob_path)
+if (getOption('run.main', default=TRUE)) {
+	print("Run from import ... now running code with example code (will fail if earlier scripts in the processing chain have not already been run)")
+
+	# Test data
+	path="../test_outputs/"
+	maskF="../test_data/aoi_mask.tif"
+	mask=raster(maskF)
+	glob_path="*REARRANGED.csv"
+	mask_clipper(path, mask, limit_different_edge_lengths=TRUE, diff_factor=2, glob_path=glob_path)
+}

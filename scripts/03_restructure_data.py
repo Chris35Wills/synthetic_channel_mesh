@@ -56,7 +56,7 @@ def restructure(path, glob_path="*densified_path_*_normals_avg_*m.csv"):
 
 if __name__ == '__main__':
 	
-	print("Data restructuring - run from import...\n")
+	print("Run from import...\n")
 	print("Running with test data now - see ../test_outputs/\n")
 	
 	path="../test_outputs"

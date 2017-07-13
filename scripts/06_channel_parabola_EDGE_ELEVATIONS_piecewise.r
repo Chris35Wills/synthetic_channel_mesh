@@ -101,7 +101,8 @@ nearest_neighbour_1stnn<-function(xy_1, xy_2){
 #'     'seed'  - considers any point closer to the ice sheet than the first centreline vertex
 #'     'dist'  - distance transform of ocean distance from land (this should be prior calculated using the aoi land mask)
 #'     'get_deepest' - if TRUE then the deepest bathymetric observation within 2km is used as opposed to just the closest
-get_nearest_elev__SEED_MOUTH<-function(norm_path, dist, obs, land_obs, type='mouth', plotting=FALSE, get_deepest=FALSE){
+#'     'dist_threshold' - radius of the search window used to assign the seed/mouth elevation
+get_nearest_elev__SEED_MOUTH<-function(norm_path, dist, obs, land_obs, type='mouth', plotting=FALSE, get_deepest=FALSE, dist_threshold=1000){
 
   # open points
   #path_xyz=paste0(normal_filenames_path, "densified_path_0001_clipped_normals_avg_6_pnts_1200m_REARRANGED_CLIPPED.csv")
@@ -163,7 +164,7 @@ get_nearest_elev__SEED_MOUTH<-function(norm_path, dist, obs, land_obs, type='mou
       print("Assigning deepest bathymetric observation within 2km to the mouth rather than just the closest...")
       
       nn=get.knnx(obs_xy, pnt, k=2, algorithm=c("kd_tree")) # output will be a list the same length as df_obs
-      min_dists=nn$nn.dist[nn$nn.dist<2000] # value of shortest distances below a threshold dist
+      min_dists=nn$nn.dist[nn$nn.dist<=dist_threshold] # value of shortest distances below a threshold dist
 
       if (length(min_dists)==0){
         
@@ -260,7 +261,7 @@ check_file_exists<-function(file_to_check){
 #' mask             - a raster object of the mask for the AOI
 #' land_obs         - path to xyz observations outside of the channel -- limit this to points within he domian, otherwise this slows everything down)
 #' dist             - path to a distance raster (distance of ocean pixels to any other pixels)
-#' dist_threshold   - radius of the search window around a centreline node to search for observations
+#' dist_threshold   - radius of the search window around a centreline node to search for observations or to assign the seed/mouth elevation
 #' seed             - if you wish to set the seed position and elevation, pass a vector of the x-coord, y_coord and elevation e.g. seed=c(222,333,-50) otherwise leave blank and the nearest point from the obs will be selected
 #' mouth            - if you wish to set the mouth position and elevation, pass a vector of the x-coord, y_coord and elevation e.g. mouth=c(222,333,-50) otherwise leave blank and the nearest point from the obs will be selected
 #' cut_off_clid_num - default 16 - centreline paths shorter than this will be ignored
@@ -348,7 +349,7 @@ channel_parabola_DRIVER<-function(norm_files, edge_path, mask, land_obs, dist, o
             seed_xyz$y=seed[2]
             seed_xyz$z=seed[3]
           } else {
-            seed_xyz=get_nearest_elev__SEED_MOUTH(norm_files[count], dist, channel_obs_xyz, land_obs_xyz, type="seed", get_deepest=FALSE)   # add to function --> create plot and save                                
+            seed_xyz=get_nearest_elev__SEED_MOUTH(norm_files[count], dist, channel_obs_xyz, land_obs_xyz, type="seed", get_deepest=FALSE, dist_threshold=dist_threshold)   
           }
 
           if (length(mouth)==3){
@@ -357,7 +358,7 @@ channel_parabola_DRIVER<-function(norm_files, edge_path, mask, land_obs, dist, o
             mouth_xyz$y=mouth[2]
             mouth_xyz$z=mouth[3]
           } else {
-            mouth_xyz=get_nearest_elev__SEED_MOUTH(norm_files[count], dist, channel_obs_xyz, land_obs_xyz, type="mouth", get_deepest=TRUE) # add to function --> create plot and save            
+            mouth_xyz=get_nearest_elev__SEED_MOUTH(norm_files[count], dist, channel_obs_xyz, land_obs_xyz, type="mouth", get_deepest=TRUE, dist_threshold=dist_threshold) 
           }       
 
           if(seed_xyz$z>-50){seed_xyz$z=-50}   
@@ -479,51 +480,49 @@ calc_distance_transform<-function(path, mask){
   return(ofile_dist)
 }
 
+if (getOption('run.main', default=TRUE)) {
+  print("Run from import ... now running code with example code (will fail if earlier scripts in the processing chain have not already been run)")
 
-############# Example run
+  ############# Example run
 
-#source("./06_channel_parabola_EDGE_ELEVATIONS_piecewise.r")
+  # Temporary processing from R raster can go in here - prudent to delete the folder after each run
+  system("mkdir -p ./temp/R_raster")
+  rasterOptions(tmpdir="./temp/R_raster")
 
-system("mkdir -p ./temp/R_raster")
-rasterOptions(tmpdir="./temp/R_raster")
+  input_path="../test_data/"
+  path="../test_outputs/"
 
-input_path="../test_data/"
-path="../test_outputs/"
+  maskF=paste0(input_path, "aoi_mask.tif")
+  land_obsF=paste0(input_path, "land_obs_xyz.csv")
+  norm_files=Sys.glob(paste0(path, "*REARRANGED_CLIPPED.csv")) ## make sure zero indexed otherwise won't be sorted
 
-maskF=paste0(input_path, "godthabsfjord_mask__CROP.tif")
-channel_obsF=paste0(input_path,"obs_xyz.csv")
-land_obsF=paste0(input_path, "land_obs_xyz.csv")
-norm_files=Sys.glob(paste0(path, "*REARRANGED_CLIPPED.csv")) ## make sure zero indexed otherwise won't be sorted
-#norm_files=Sys.glob(paste0(path, "densified_path_0003_normals_avg_6_pnts_600m_REARRANGED_CLIPPED.csv"))
+  #dist=calc_distance_transform(input_path, maskF) # << you can calculate the distance grid here but it is already calculated for speed - takes a long time for a large mask!
+  dist=paste0(input_path, "dist_mask.tif")
 
-#dist=calc_distance_transform(input_path, maskF) # << you can calculate the distance grid here but it is already calculated for speed - takes a long time for a large mask!
-dist=paste0(input_path, "dist_mask.tif")
+  ## Example for a specific channel file with an observation file
+  channel_obsF=paste0(input_path,"obs_xyz.csv")
+  channel_parabola_DRIVER(norm_files=norm_files,
+                           edge_path=path,
+                           mask=maskF,
+                           land_obs=land_obsF,
+                           obs_path=channel_obsF,
+                           dist=dist,
+                           true_centre=FALSE,
+                           dist_threshold=1000,
+                           verbose=0)
 
-channel_parabola_DRIVER(norm_files=norm_files,
-                         edge_path=path,
-                         mask=maskF,
-                         land_obs=land_obsF,
-                         obs_path=channel_obsF,
-                         dist=dist,
-                         true_centre=FALSE,
-                         dist_threshold=1000,
-                         verbose=0)
-
-## Example for a specific channel file without an observation file but with provided seed and mouth xyz values
-#
-# seed_xyz=c(-561833,-2777688,-50)
-# mouth_xyz=c(-626515, -2794864, -300)
-#  
-# norm_files=Sys.glob(paste0(path, "densified_path_0002_normals_avg_6_pnts_600m_REARRANGED_CLIPPED.csv"))
-#  
-# channel_parabola_DRIVER(norm_files=norm_files[1],
-#                         edge_path=path,
-#                         mask=maskF,
-#                         land_obs=land_obsF,
-#                         dist=dist,
-#                         true_centre=FALSE,
-#                         dist_threshold=1000,
-#                         verbose=0,
-#                         seed=seed_xyz,
-#                         mouth=mouth_xyz)
-
+  ## Example for a specific channel file without an observation file but with provided seed and mouth xyz values
+  # seed_xyz=c(-561833,-2777688,-50)
+  # mouth_xyz=c(-626515, -2794864, -300)
+  #  
+  # channel_parabola_DRIVER(norm_files=norm_files[1],
+  #                         edge_path=path,
+  #                         mask=maskF,
+  #                         land_obs=land_obsF,
+  #                         dist=dist,
+  #                         true_centre=FALSE,
+  #                         dist_threshold=1000,
+  #                         verbose=0,
+  #                         seed=seed_xyz,
+  #                         mouth=mouth_xyz)
+}
