@@ -20,7 +20,7 @@ and with the channel centrelines overlain...
 
 ## System requirements
 
-The code is written in both Python and R. Your Python environment requires the following packages:
+The code is written in both Python and R. The python portion of the work was developed using Python 3.5.1. Your Python environment requires the following packages:
 
 	- xxx
 	- xxx
@@ -31,13 +31,15 @@ These can be installed using the anaconda installer such as by using:
 
 	anaconda ....
 
-R and requires the following libraries to be installed:
+The R portion of the code was developed using R version 3.2.2 You will need the following libraries to be installed:
 
 	- xxx
 	- xxx
 	- xxx
 	- xxx
-	
+
+The scripts will automatically check for these and try and install them. This may need you to manual install packages depending on your privileges.
+
 ## Data Requirements
 
 To take advantage of this code, you should have available:
@@ -103,7 +105,7 @@ To summarize, the scripts implement the following:
 - 08_get_minimum_surface_from_stack.r 
 	- Where multiple synthetic channels have been created within an AOI, overlaps are likely such as at confluences. 
 	- This combines all of the rasterised synthetic channels, taking the minimum elevation at overlaps, thus preserving deeper channels within a system.
-	- Returned from this script are raster (geotif) and point xyz (csv) datasets of the combined synthetic dataset.
+	- Returned from this script are raster (GeoTIFF) and point xyz (csv) datasets of the combined synthetic dataset.
 
 - 09_combine_and_interp.r
 	- This provides an example of how you can integrate the synthetic points with other observations using simple interpolation to provide a DEM with your synthetic channel - a quick way to compare a surface with and without synthetic intervention.
@@ -118,21 +120,15 @@ Various helper functions are held within the following files, also in `./scripts
 - parabola_funcs_where_obs_available.r
 - plotting.r
 
-## Implementation
+## Implementation and example run
 
 At the bottom of each script is an example of how to run the code using the provided test data (see ./test_data). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
 
-An example of how to run the whole process in bash (assuming your R and python environments are correctly set-up) is provided here:
+Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single bash script such as ./scripts/test_aoi.sh.
 
-- ./scripts/DIY.sh
+*If you're on windows, you may need to run `dos2unix test_aoi.sh` first to handle newline characters.*
 
-*If you're on windows, you may need to run `dos2unix DIY.sh` first to handle the newline characters.*
-
-## Example run
-
-To run the code with the examples, either run each script directly or run `example_script.sh`.
-
-The input test data outputs go respectively to:
+The input and test data outputs for the example run are located respectively in:
 	./GitHub/synthetic_channel_mesh/test_data
 	./GitHub/synthetic_channel_mesh/test_outputs
 
@@ -146,10 +142,6 @@ The settings currently defined suited the application for which the code was dev
 
 ## To do
 
-[ ] Show how to call code from a single bash script 
-	- see ./scripts/DIY.sh
-	- use the examples from the bottom of each script
-
 [ ] Explain true_centre
 
 [ ] Create release and mint DOI :) -- https://guides.github.com/activities/citable-code/
@@ -157,6 +149,8 @@ The settings currently defined suited the application for which the code was dev
 	-- add doi ink to README.md
 
 [ ] License - free to use/modify but please reference the Williams2017 paper and/or the code location
+
+[ ] Perhaps state briefly what you expect to find in each output file from each script 
 
 [x] Show examples of how to run code at bottom of each script
 	-- R equivalent of pythons if __name__ == "__main__" is:
