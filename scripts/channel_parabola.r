@@ -1,17 +1,11 @@
-#source("C:/GitHub/R_bits/my_functions/plotting.r")
-#source("C:/Github/synthetic_channels/meshing/sorted_scripts/parabola_funcs_where_obs_available.r")        
-#source("C:/GitHub/synthetic_channels/meshing/sorted_scripts/channel_parabola.r")
-
-#library(fields) # for splies (er.g. Tps)
-#library(ggplot2)
-#library(rgl) # for 3d plotting
-library(raster)
-library(sp)
-#library(car)
+if (!require("raster")) install.packages("raster")
+if (!require("sp")) install.packages("sp")
+if (!require("ggplot2r")) install.packages("ggplot2")
+#if (!require("rgl")) install.packages("rgl") # for 3d plotting
+#if (!require("fields")) install.packages("fields") # for splies (er.g. Tps)
+#if (!require("car")) install.packages("car") 
 #source("./plotting.r")
-
 source("./parabola_funcs_where_obs_available.r")        
-
 
 read_me_df<-function(data_f){
   data=read.csv(data_f)
