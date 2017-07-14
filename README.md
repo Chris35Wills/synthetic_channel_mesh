@@ -34,7 +34,7 @@ If you are using the [anaconda](https://www.continuum.io/downloads) python distr
 conda create -n synth_env python=3.5.1 
 
 source activate synth_env # linux
-activate synth_env 	      # windows
+#activate synth_env # windows
 
 conda install -c anaconda numpy=1.13.1
 conda install -c anaconda pandas=0.20.2
@@ -146,13 +146,17 @@ Once you know the settings you wish to apply, a better way to use the code is to
 
 So to run the example, you can use:
 
-	python d01.py
-	Rscript d02.r
-	...etc
+```
+python d01.py
+Rscript d02.r
+...etc
+```
 
 or
 
-	sh example_aoi_run.sh
+```
+sh example_aoi_run.sh
+```
 
 One method of implementing this command line approach on windows is through [cygwin](https://www.cygwin.com/).
 
@@ -166,19 +170,9 @@ The input and test data outputs for the example run are located respectively in:
 
 ## Comments and further development
 
-The settings currently defined suited the application for which the code was developed but are not definitive as the synthetic meshing conditions will change per application. Furthermore, elements of the code could be made more efficient/more widely applicable - feel free to make developments as you see fit.
+The settings currently defined suited the application for which the code was developed but are not definitive as the synthetic meshing conditions will change per application. Furthermore, elements of the code could be made more efficient/more widely applicable - feel free to make developments as you see fit - this can be done through Github [here](https://github.com/Chris35Wills/synthetic_channel_mesh).
 
-#######################
 
-## To do
-
-[ ] Create release and mint DOI :) -- https://guides.github.com/activities/citable-code/
-	-- do the same for LFMapper too
-	-- add doi ink to README.md
-
-[ ] License - free to use/modify but please reference the Williams2017 paper and/or the code location
-
-	
 
 
 
