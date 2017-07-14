@@ -1,8 +1,8 @@
-library(FNN)
-library(sp)
-library(ggplot2)
-library(raster)
-library(foreach)
+if (!require("FNN")) install.packages("FNN")
+if (!require("sp")) install.packages("sp")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("raster")) install.packages("raster")
+if (!require("foreach")) install.packages("foreach")
 
 read_me_df<-function(data_f){
   data=read.csv(data_f)
