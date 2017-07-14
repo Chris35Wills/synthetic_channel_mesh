@@ -7,7 +7,7 @@ echo "All driver scripts are located in synthetic_channel_mesh/scripts/"
 python d01.py               
 
 ## Run s02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.R
-# Rscript d02.r                
+Rscript d02.r                
 # 
 # ## Run s03_restructure_data.py
 # python d03.py               
