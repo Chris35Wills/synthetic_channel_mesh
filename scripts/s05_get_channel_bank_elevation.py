@@ -64,7 +64,6 @@ def get_bank_elevation_DRIVER(land_obs, normal_files, search_dist=30000, opath='
 		# if output path not set, save where normal files are saved
 		opath=os.path.dirname(normal_files[0]) 
 
-	land_obs="C:/Github/synthetic_channel_mesh/test_data/land_obs_xyz.csv"
 	elev_xyz=pd.read_csv(land_obs, sep=",")
 	elev_xy=elev_xyz[['x','y']]
 
