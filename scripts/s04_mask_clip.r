@@ -1,7 +1,7 @@
-library(raster)
-library(sp)
-library(ggplot2)
-library(tools)
+if (!require("raster")) install.packages("raster")
+if (!require("sp")) install.packages("sp")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("tools")) install.packages("tools")
 
 # Plot points over raster
 plot_mask_and_points<-function(mask, mask_extent=extent(-10000, 25000, -750000, -700000), pnts, centre=TRUE){
