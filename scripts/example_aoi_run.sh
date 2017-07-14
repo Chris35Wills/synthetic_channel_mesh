@@ -44,6 +44,12 @@ echo "	"
 echo "	"
 
 ## Run s06_channel_parabola_EDGE_ELEVATIONS_piecewise.r
+echo "	"
+echo "	"
+echo ">>>>>>>> Starting run of d06 - this may take a while... <<<<<<<<"
+echo "	"
+echo "	"
+
 Rscript d06.r                
 echo "	"
 echo "	"
