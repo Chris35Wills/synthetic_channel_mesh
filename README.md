@@ -6,15 +6,15 @@ The code provided enables the creation of points with assigned elevations to pop
 
 The long profile elevation trend of the channel is derived from elevations at the head and mouth of the channel, including also any point observations within the channel. Where the centreline itself has only a known elevation at the head and mouth of its length, the long profile elevation trend is simply linear. The cross-profile is constructed as a second order polynomial, using elevations at either edge (using the nearest observed elevations) and the centreline elevation. The meshing procedure is described in [Williams et al., 2017](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html).
 
-Image of example surface before...
+Image of example elevation surface before integration of synthetic channel...
 
 <img src="./figs/aoi_without_synth.png" width="500px" />
 
-and after....
+...after integration of synthetic channel....
 
 <img src="./figs/aoi_with_synth.png" width="500px" />
 
-and with the channel centrelines overlain...
+...with the channel centrelines overlain...
 
 <img src="./figs/aoi_with_synth_and_paths.png" width="500px" />
 
@@ -124,7 +124,19 @@ Various helper functions are held within the following files, also in `./scripts
 
 At the bottom of each script is an example of how to run the code using the provided test data (see ./test_data). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
 
-Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single bash script such as ./scripts/test_aoi.sh.
+Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to trun the example aoi code: ./scripts/example_aoi_run.sh.
+
+So to run the example, you can use:
+
+	python d01.py
+	Rscript d02.r
+	...etc
+
+or
+
+	sh example_aoi_run.sh
+
+One method of implementing this command line approach on windows is through [cygwin](https://www.cygwin.com/).
 
 *If you're on windows, you may need to run `dos2unix test_aoi.sh` first to handle newline characters.*
 
