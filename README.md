@@ -1,5 +1,7 @@
 # Synthetic channel mesh routine
 
+[![DOI](https://zenodo.org/badge/95893204.svg)](https://zenodo.org/badge/latestdoi/95893204)
+
 The code provided enables the creation of points with assigned elevations to populate channels where only the centreline is mapped. This is achieved by creating points normal to the centreline of a channel up to its banks, the extent of which is constrained by a land classification mask. 
 
 <img src="./figs/mesh_normal_method.png" width="300px" />
