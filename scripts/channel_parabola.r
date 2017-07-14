@@ -1,14 +1,17 @@
 #source("C:/GitHub/R_bits/my_functions/plotting.r")
 #source("C:/Github/synthetic_channels/meshing/sorted_scripts/parabola_funcs_where_obs_available.r")        
-source("./plotting.r")
-source("./parabola_funcs_where_obs_available.r")        
 #source("C:/GitHub/synthetic_channels/meshing/sorted_scripts/channel_parabola.r")
-library(fields) # for splies (er.g. Tps)
-library(ggplot2)
-library(rgl) # for 3d plotting
+
+#library(fields) # for splies (er.g. Tps)
+#library(ggplot2)
+#library(rgl) # for 3d plotting
 library(raster)
 library(sp)
-library(car)
+#library(car)
+#source("./plotting.r")
+
+source("./parabola_funcs_where_obs_available.r")        
+
 
 read_me_df<-function(data_f){
   data=read.csv(data_f)
@@ -623,50 +626,8 @@ set_elevations <- function(df, df_edge, fid, out_df, count, last_indx_counter, c
       }
       
       norm_elev_matrix<-na.omit(norm_elev_matrix) # get rid of nans
-      #norm_elev_matrix<-norm_elev_matrix[,1] # subsample na.omit object to get data
       norm_elev_matrix<-matrix(norm_elev_matrix, nrow=length(norm_elev_matrix), byrow=TRUE) # reshape it
-      #norm_elev_matrix<-as.data.frame(norm_elev_matrix)
-      
-      ################################################################################################### <<< START OF CHECK THAT EDGES == 0m   
-      #max_cl_dist_RIGHT<-max(subset(cl_eg, side==1)$cl_dist_r)
-      #max_cl_dist_LEFT<-max(subset(cl_eg, side==2)$cl_dist_l)
-      #
-      ##rename row names
-      #row.names(cl_eg)<-seq(1,nrow(cl_eg),1)
-      #
-      ## get index of max cl distance (left and right)
-      #max_dist_RIGHT_indx<-as.integer(rownames(cl_eg[cl_eg$cl_dist_r == max_cl_dist_RIGHT & cl_eg$side ==1,]))
-      #max_dist_LEFT_indx<-as.integer(rownames(cl_eg[cl_eg$cl_dist_l == max_cl_dist_LEFT & cl_eg$side ==2,]))
-      #
-      #right_edge_elev<-norm_elev_matrix[max_dist_RIGHT_indx]
-      #left_edge_elev<-norm_elev_matrix[max_dist_LEFT_indx]
-        
-      ################################################################################################### <<< END OF CHECK THAT EDGES == 0m   
-      
-      #cl_depth <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CHECK CORRECTION IS APPLIED CONSISTENTLY
-        
-        #cl_elev=mid_depth[2] # this holds as the mid depth as the mid location is adjusted according to the lengths of the left and right normals
-        #if (true_centre==TRUE){
-        #  x_val=correction
-        #} else {
-          
-          #x_val=mid_depth[1]
-          x_val=0 # the true centre is important for defining the [parabola but the specific point between the bank edges is not likely cleanly 
-                  # divisbile by 2 - thus, as the bank distances from 0 have been used to calc the parabola (setting its x xaxis range), we now 
-                  # have to calculate a value at 0 to have a complete chain of points - whether it is the centre or not is now irrelevant
-        #}
-
-        #cl_elev_CHECK=(a*(x_val^2))+(b*x_val)+c
-        cl_elev=(a*(x_val^2))+(b*x_val)+c
-       # if (round(cl_elev) != round(centreline_depth)){
-       #   cat("Observed cl elev: ", cl_elev, "\n")
-       #   cat("Expected cl elev: ", centreline_depth, "\n")
-       #   cat("Centreline distance (offset): ", mid_depth[1], "\n")
-       #   stop("Centreline elevation not preserved... come and have a chat with me in set_elevcations()")
-       # }
-
-      ## r_depth = (a*(x_val^2))+(b*x_val)+c
-      #cl_elev_matrix <- matrix(cl_elev, nrow=nrow(norm_elev_matrix), ncol=1)
+      cl_elev=(a*(x_val^2))+(b*x_val)+c
       
       ##################
       # Add data to data frame (a new row for each point) 
@@ -684,14 +645,8 @@ set_elevations <- function(df, df_edge, fid, out_df, count, last_indx_counter, c
         
         if(verbose==1){print(pos)}
 
-        #if (add_centre_offset_to_output==FALSE){
         out_df[pos,]<-cbind(cl_eg[i,], norm_elev_matrix[i], cl_elev)
-        #} else if (add_centre_offset_to_output==TRUE){
-        ## add offset of centre from true_centre
-        #  if(verbose==1){print("including offset of centre from true_centre in output")}
-        #  out_df[pos,]<-cbind(cl_eg[i,], norm_elev_matrix[i], cl_elev, mid_depth[1])
-        #}
-        
+     
         
       }
       
@@ -745,17 +700,10 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
   if(is.data.frame(observations_xyz)!=TRUE){stop("observations_xyz should be a n empty dataframe or of the form x,y,z -- if you have no data, do not set this variable")}
   df_obs=observations_xyz   # if observations are provided nrow will be >1, otherwise it will be 0
   print("Observation_FILE input checked.")
-  # df_norm=read_me_df(norm_f)
-  # df_edge=read_me_df(edge_f)
-  # df_obs=read_me_df(obs_f)
 
   # add seed and mouth to obs .... location...
   seed_elevation=seed_xyz[3]
   mouth_elevation=mouth_xyz[3]
-
-  #print("Binding seed, mouth and obs")
-  #df_obs=rbind(df_obs, seed_xyz, mouth_xyz)
-  #colnames(df_obs)<-c('x','y','z')
 
   if (plotting==TRUE){
     
@@ -845,12 +793,6 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
     num_pred_cl_elev=nrow(cl_elevs_df)
     print(paste0("Number of centreline elevations assigned from observations: ", num_pred_cl_elev))
     
-  #    if (num_pred_cl_elev!=cl_ids){
-  #      cat("Number of points mapped: ", cl_ids, "\n")
-  #      cat("Number of points for model input: ", num_pred_cl_elev, "\n")
-  #      stop("Centre elev nodes to define model must match the number of centreline node instances mapped")
-  #      }
-
     if (plotting==TRUE){  
       cl_elevs_df_TEMP=cl_elevs_df
       df_norm_TEMP=df_norm
@@ -872,13 +814,6 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
 
     xyz=combine_seed_mouth_cl_elevs(cl_elevs_df_SD_FILTERED, seed_xyz, mouth_xyz, verbose=verbose, cumdist=FALSE)
     
-
-  #    if (nrow(xyz)!=(cl_ids+2)){ # cl_ids + 2 includes all mapped cl_ids plus the seed and mouth points
-  #      cat("Number of points mapped: ", cl_ids, "\n", sep="")
-  #      cat("Number of points for model input: ", nrow(xyz), "\n", sep="")
-  #      stop("Centre elev nodes to define model must match the number of centreline node instances mapped")
-  #      }
-
   } else {
     
     if(verbose==1){
@@ -886,7 +821,6 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
       print("No observations available.")
       print("**************************")
     }
-
 
     xyz=combine_SPARSE_seed_centre_mouth_xyz(seed_xyz, df_norm, mouth_xyz, df_edge, plotting=plotting, true_centre=true_centre, verbose=verbose, cumdist=FALSE)
     cl_elevs_df=xyz[2:(nrow(xyz)-1),] # all centre points excluding the seed and mouth points
