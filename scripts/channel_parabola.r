@@ -7,7 +7,7 @@
 
 if (!require("raster")) install.packages("raster")
 if (!require("sp")) install.packages("sp")
-if (!require("ggplot2r")) install.packages("ggplot2")
+if (!require("ggplot2")) install.packages("ggplot2")
 #if (!require("rgl")) install.packages("rgl") # for 3d plotting
 #if (!require("fields")) install.packages("fields") # for splies (er.g. Tps)
 #if (!require("car")) install.packages("car") 
