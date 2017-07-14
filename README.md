@@ -176,9 +176,18 @@ The input and test data outputs for the example run are located respectively in:
 - The code has been set-up such that all scripts and functions work within this directory structure 
 - If you change these locations or perhaps add the functions to your system path, you will need to alter the path declarations in each script accordingly
 
+
+## Acknowledgment
+
+If you use this code as part of your research, please reference the formal definition article (available [here](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html)) as:
+
+	Williams, C. N., Cornford, S. L., Jordan, T. M., Dowdeswell, J. A., Siegert, M. J., Clark, C. D., Swift, D. A., Sole, A., Fenty, I., and Bamber, J. L.: Generating synthetic fjord bathymetry for coastal Greenland, The Cryosphere, 11, 363-380, https://doi.org/10.5194/tc-11-363-2017, 2017.
+
+
 ## Comments and further development
 
 The settings currently defined suited the application for which the code was developed but are not definitive as the synthetic meshing conditions will change per application. Furthermore, elements of the code could be made more efficient/more widely applicable - feel free to make developments as you see fit - this can be done through Github [here](https://github.com/Chris35Wills/synthetic_channel_mesh). You can also report issues here.
+
 
 
 
