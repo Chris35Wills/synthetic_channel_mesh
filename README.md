@@ -45,10 +45,16 @@ conda install -c anaconda scipy=0.18.1
 
 The R portion of the code was developed using R version 3.2.2 You will need the following libraries to be installed:
 
-	- xxx
-	- xxx
-	- xxx
-	- xxx
+	- raster
+	- sp
+	- ggplot2
+	- FNN
+	- foreach
+	- pgirmess
+	- rgdal
+	- maptools
+	- tools
+	- dplyr
 
 The scripts will automatically check for these and try and install them. This may need you to manual install packages depending on your privileges.
 
@@ -136,7 +142,7 @@ Various helper functions are held within the following files, also in `./scripts
 
 At the bottom of each script is an example of how to run the code using the provided test data (see ./test_data). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
 
-Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to trun the example aoi code: ./scripts/example_aoi_run.sh.
+Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to run the example aoi code: ./scripts/example_aoi_run.sh.
 
 So to run the example, you can use:
 
@@ -166,23 +172,11 @@ The settings currently defined suited the application for which the code was dev
 
 ## To do
 
-[ ] Explain true_centre
-
 [ ] Create release and mint DOI :) -- https://guides.github.com/activities/citable-code/
 	-- do the same for LFMapper too
 	-- add doi ink to README.md
 
 [ ] License - free to use/modify but please reference the Williams2017 paper and/or the code location
-
-[ ] Perhaps state briefly what you expect to find in each output file from each script 
-
-[x] Show examples of how to run code at bottom of each script
-	-- R equivalent of pythons if __name__ == "__main__" is:
-		if (getOption('run.main', default=TRUE)) {
-	 		 main()
-		}
-
-	see here: https://stackoverflow.com/questions/21383058/is-ifinteractive-an-r-equivalent-to-the-pythonic-if-name-main
 
 	
 
