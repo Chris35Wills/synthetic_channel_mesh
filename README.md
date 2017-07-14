@@ -142,7 +142,7 @@ Various helper functions are held within the following files, also in `./scripts
 
 At the bottom of each script is an example of how to run the code using the provided test data (see `./test_data`). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
 
-Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to run the example aoi code: `./scripts/example_aoi_run.sh`.
+Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in `.\scripts` (with a `d` prefix e.g. `d01.py`). Once setup, these can then be called using a single script such as using bash -- an example script is provided to run the example aoi code: `./scripts/example_aoi_run.sh`.
 
 So to run the example, you can use:
 
