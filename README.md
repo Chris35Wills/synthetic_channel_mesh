@@ -20,16 +20,28 @@ Image of example elevation surface before integration of synthetic channel...
 
 ## System requirements
 
-The code is written in both Python and R. The python portion of the work was developed using Python 3.5.1. Your Python environment requires the following packages:
+The code is written in both Python and R. The python portion of the work was developed using Python 3.5.1. You will need the following Python modules:
 
-	- xxx
-	- xxx
-	- xxx
-	- xxx
+	- numpy
+	- pandas
+	- matplotlib
+	- pyproj
+	- scipy.spatial
 
-These can be installed using the anaconda installer such as by using:
+If you are using the [anaconda](https://www.continuum.io/downloads) python distribution, you can set up a new python environment along with these modules using:
 
-	anaconda ....
+```python
+conda create -n synth_env python=3.5.1 
+
+source activate synth_env # linux
+activate synth_env 	      # windows
+
+conda install -c anaconda numpy=1.13.1
+conda install -c anaconda pandas=0.20.2
+conda install -c conda-forge matplotlib=2.0.2
+conda install -c conda-forge pyproj=1.9.5.1
+conda install -c anaconda scipy=0.18.1
+```
 
 The R portion of the code was developed using R version 3.2.2 You will need the following libraries to be installed:
 
