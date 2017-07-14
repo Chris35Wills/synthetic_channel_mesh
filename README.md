@@ -79,7 +79,7 @@ A series of test data files are available in ./test_data which consist of the fo
 
 ## How it works
 
-The synthetic mesh routine consists of the following scripts (all stored in ./scripts):
+The synthetic mesh routine consists of the following scripts (all stored in `./scripts`):
 
 - 01_densify_paths.py 	
 - 02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.R 	
@@ -106,7 +106,7 @@ To summarize, the scripts implement the following:
 - 04_mask_clip.py
 	- Clips the points and their edges using the land classification mask - this limits overflow of channel normal points where channel does not have clearly defined sides.
 
-- 05_get_channel_bank_elevation.py: Step XX  
+- 05_get_channel_bank_elevation.py
 	- Assigns elevations to the synthetic mesh points at the edge of the channel based on the nearest observed points (out of the channel). 
 
 - 06_channel_parabola_EDGE_ELEVATIONS_piecewise.r 
@@ -140,9 +140,9 @@ Various helper functions are held within the following files, also in `./scripts
 
 ## Implementation and example run
 
-At the bottom of each script is an example of how to run the code using the provided test data (see ./test_data). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
+At the bottom of each script is an example of how to run the code using the provided test data (see `./test_data`). Running on a script by script basis may be preferable as there are numerous settings that can be altered and you may wish to modify/create new functions to suit your specific needs. 
 
-Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to run the example aoi code: ./scripts/example_aoi_run.sh.
+Once you know the settings you wish to apply, a better way to use the code is to use driver scripts which import the functions - examples of these are also provided in ./scripts (with a *d* prefix e.g. *d01.py*). Once setup, these can then be called using a single script such as using bash -- an example script is provided to run the example aoi code: `./scripts/example_aoi_run.sh`.
 
 So to run the example, you can use:
 
@@ -157,6 +157,8 @@ or
 ```
 sh example_aoi_run.sh
 ```
+
+Make sure you are within the `./scripts/` folder when you do this.
 
 One method of implementing this command line approach on windows is through [cygwin](https://www.cygwin.com/).
 
