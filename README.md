@@ -162,13 +162,16 @@ Make sure you are within the `./scripts/` folder when you do this.
 
 One method of implementing this command line approach on windows is through [cygwin](https://www.cygwin.com/).
 
-*If you're on windows, you may need to run `dos2unix test_aoi.sh` first to handle newline characters.*
-
 The input and test data outputs for the example run are located respectively in:
+	
 	./GitHub/synthetic_channel_mesh/test_data
 	./GitHub/synthetic_channel_mesh/test_outputs
 
-**NB/ The code has been set-up such that all scripts and functions work within this directory structure - if you change these locations or perhaps add the functions to your system path, you will need to alter the path declarations in each script accordingly.**
+## Things to be aware of
+
+- If you're on windows, you may need to run `dos2unix test_aoi.sh` first to handle newline characters.
+- The code has been set-up such that all scripts and functions work within this directory structure 
+- If you change these locations or perhaps add the functions to your system path, you will need to alter the path declarations in each script accordingly
 
 ## Comments and further development
 
