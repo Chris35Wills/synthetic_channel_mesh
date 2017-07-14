@@ -28,6 +28,10 @@ if (!require("rgdal")) install.packages("rgdal")
 if (!require("maptools")) install.packages("maptools")
 if (!require("tools")) install.packages("tools")
 
+#' dist_between_norm_vertices - space between points along each normal (m) 
+#'							  - a smaller dist_between_norm_vertices (m) will provided a coarser mesh but speed things up
+#' max_length_of_side         - max length of normal either side of channel (m)
+#'                            - any over-run of a normal out of the channel into land will be clipped later on
 vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbose=TRUE, dist_between_norm_vertices=100, max_length_of_side=8000){
 
 	filenames=Sys.glob(paste0(in_path,file_glob))
