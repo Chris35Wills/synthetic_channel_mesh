@@ -56,14 +56,9 @@ def densify(infile, desired_spacing=200., projection=pyproj.Proj("+init=EPSG:432
 			plt.scatter(coords[i,0],coords[i,1],label=point)
 			plt.draw()
 			time.sleep(0.05)
-		
-#	if projection.is_latlong():
-#		print("converting to gridded xy")
-#		ux,uy = pyproj.transform(wgs84, gridded_prj, coords[:,0].values,coords[:,1].values)
-#	else:
+			
 	ux,uy = xx,yy
 		
-
 	# Create additional points according to existing point spacing
 	# and user set desired sample spacing
 	transects=[None]*len(ux)
