@@ -116,6 +116,7 @@ To summarize, the scripts implement the following:
 	- The centreline elevations that are set - the mouth, seed and any other nodes close to points (for which a threshold value of 1000 m is set assuming your coordinates are in metres) - are then used to assign elevations to all other centreline nodes, providing elevations along the entire centreline. Where only the seed and mouth are known, this will be linear, otherwise it will be piecewise.
 	- The routine is sensitive to the presence of any observations provided, assuming they are within the search threshold (default is 1000 m assuming your coordinates are in metres).
 	- Parabolas are then calculated for each node using the centreline elevation and prior-set edge elevations, providing elevations across each cross section.
+	- This will output a plot of the long profile of each channel.
 
 - 07_point_to_raster.r 
 	- Grids the mesh nodes to a specific resolution, averaging the elevations where multiple cross-sections overlap such as at meanders. 
