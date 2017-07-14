@@ -181,7 +181,7 @@ The input and test data outputs for the example run are located respectively in:
 
 If you use this code as part of your research, please reference the formal definition article (available [here](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html)) as:
 
-	Williams, C. N., Cornford, S. L., Jordan, T. M., Dowdeswell, J. A., Siegert, M. J., Clark, C. D., Swift, D. A., Sole, A., Fenty, I., and Bamber, J. L.: Generating synthetic fjord bathymetry for coastal Greenland, The Cryosphere, 11, 363-380, https://doi.org/10.5194/tc-11-363-2017, 2017.
+Williams, C. N., Cornford, S. L., Jordan, T. M., Dowdeswell, J. A., Siegert, M. J., Clark, C. D., Swift, D. A., Sole, A., Fenty, I., and Bamber, J. L.: Generating synthetic fjord bathymetry for coastal Greenland, The Cryosphere, 11, 363-380, https://doi.org/10.5194/tc-11-363-2017, 2017.
 
 
 ## Comments and further development
