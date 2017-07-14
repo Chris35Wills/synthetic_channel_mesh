@@ -39,6 +39,7 @@ import glob
 import numpy as np
 import pandas as pd
 import util
+import nearest_neighbour
 
 def test_length(dists,indxs, infinity=float("inf")):
 	"""
