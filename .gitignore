@@ -1,0 +1,7 @@
+*.pyc
+/scripts/Rplots.pdf
+/scripts/__pycache__
+/test_data/aoi_mask.tif.aux.xml
+/test_outputs/*.png
+/test_outputs/*.tif
+/test_outputs/*.csv
