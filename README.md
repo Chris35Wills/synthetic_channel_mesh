@@ -175,7 +175,7 @@ The input and test data outputs for the example run are located respectively in:
 
 ## Comments and further development
 
-The settings currently defined suited the application for which the code was developed but are not definitive as the synthetic meshing conditions will change per application. Furthermore, elements of the code could be made more efficient/more widely applicable - feel free to make developments as you see fit - this can be done through Github [here](https://github.com/Chris35Wills/synthetic_channel_mesh).
+The settings currently defined suited the application for which the code was developed but are not definitive as the synthetic meshing conditions will change per application. Furthermore, elements of the code could be made more efficient/more widely applicable - feel free to make developments as you see fit - this can be done through Github [here](https://github.com/Chris35Wills/synthetic_channel_mesh). You can also report issues here.
 
 
 
