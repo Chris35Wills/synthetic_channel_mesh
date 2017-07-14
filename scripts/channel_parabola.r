@@ -1,3 +1,10 @@
+##############################
+# Program: channel_parabola.r
+#
+# Various functions for calculation of cross-profile channel parabola
+#
+# @author Chris Williams
+
 if (!require("raster")) install.packages("raster")
 if (!require("sp")) install.packages("sp")
 if (!require("ggplot2r")) install.packages("ggplot2")
@@ -11,42 +18,6 @@ read_me_df<-function(data_f){
   data=read.csv(data_f)
   df<-as.data.frame(data)
   return(df)
-}
-
-
-
-# Provides test data
-# as_df  - is TRUE returns a list containing dataframes, otherwise just a list of file path strings
-# sparse - 2 - data available along length of fjord
-#        - 1 - data available along parts of fjord
-#        - 0 - no data available in fjord (relies on the seed and mouth input points)
-open_test_data<-function(data_path="C:/GitHub/synthetic_channels/meshing/test_data/fenty_aoi_region/", as_df=TRUE, sparse=2){
-
-  print("Opening test data")
-  normal_points_F=capture.output(cat(data_path, "test__densified_path_1_clipped_normals_avg_6_pnts_1200m_REARRANGED_CLIPPED___fenty_aoi.csv", sep=""))      # FORMAT: AS PER *.csv
-  edge_elevations_F=capture.output(cat(data_path, "test_densified_path_1_clipped_normals_avg_6_pnts_1200m_REARRANGED_CLIPPED_edge_elevs___fenty_aoi.csv", sep="")) # FORMAT: AS PER *.csv
-  
-  if (sparse==2){
-    observations_F=capture.output(cat(data_path, "test_OMG_obs_centreline_xyz__fenty_aoi.csv", sep=""))  # FORMAT: X,Y,Z
-  } else if (sparse==1){
-    observations_F=capture.output(cat(data_path, "test_OMG_obs_centreline_xyz__fenty_aoi__SPARSE.csv", sep=""))  # FORMAT: X,Y,Z
-  } else if (sparse==0){
-    observations_F=capture.output(cat(data_path, "test_OMG_obs_centreline_xyz__fenty_aoi__NO_OBSERVATIONS.csv", sep=""))  # FORMAT: X,Y,Z
-  }
-  
-  f_out=capture.output(cat(data_path, "test_spline_fjord___with_observations__PIECEWISE_LINEAR.csv", sep=""))
-
-  if (as_df==TRUE){
-    df_norm=read_me_df(normal_points_F)
-    df_edge=read_me_df(edge_elevations_F)
-    df_obs=read_me_df(observations_F)
-  
-    return(list(df_norm, df_edge, df_obs, f_out))  
-  } else {
-  
-    return(list(normal_points_F, edge_elevations_F, observations_F, f_out))  
-  }
-
 }
 
 #' Calculate unknowns in parabola equation
@@ -227,190 +198,6 @@ test_make_parabola<-function(){
   #plot(norm_cl_dists,norm_elevs)
 }
 
-
-plot_test_output<-function(norms_csv){
-  
-    print("Attempting to plot test output...")
-
-    norm_data=read.csv(norms_csv)
-    df<-as.data.frame(norm_data)
-  
-    # 2d plot
-    p1<-ggplot(df, aes(x, y)) + 
-      #geom_point(aes(colour=norm_elev)) + 
-      geom_point()+
-      geom_point(data = df, aes(cl_x, cl_y, colour=cl_elev)) +
-      coord_fixed() +
-      ggtitle("Normal and centreline locations...")
-
-    p2<-ggplot(df, aes(cl_id, norm_elev)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) +
-      ggtitle("Linear model (not necessarily\nused to calc elevs)")
-
-    p3<-ggplot(df, aes(cl_id, cl_elev)) +
-      geom_point() +
-      geom_smooth(method = "lm", se = FALSE) +
-      ggtitle("Linear model (not necessarily\nused to calc elevs)")
-    
-    multiplot(p1, p2, p3, cols=3)
-
-}
-
-
-#' true_centre : if TRUE, then the centreline elevations (when defining the parabola) are assigned to the "true centre" i.e. which 
-#'               lies exactly halfway between the edges of a given normal. Otherwise the centreline elevations are assigned to the 
-#'               mapped centreline position. Using one or the other will result in slightly different normal node elevations as you 
-#'               shift the position of one of your "known" values used to define the parabola.
-#'
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1)  # piecewise
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1) # piecewise
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0)  # linear
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0) # linear
-#
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1, sparse=1, dist_threshold=2000)  # piecewise + sparse
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1, sparse=1, dist_threshold=2000) # piecewise + sparse
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0, sparse=1)  # linear + sparse
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0, sparse=1) # linear + sparse
-#
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1, sparse=0)  # piecewise + no obs
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1, sparse=0) # piecewise + no obs  - OK
-#test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0, sparse=0)  # linear + no obs     - OK
-#test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0, sparse=0) # linear + no obs     - OK
-#
-# WHAT TO EXPECT from the tests
-#
-# Where true_centre==TRUE, the observations will be slightly offset from expected values - this is because the expected values are 
-#   calculated from a model using th exact centre of the channel - elevations are then calculated using the nodes along each normal 
-#   which are in a sightly different position which alters the elevations calculated for them and the caccumulated distance between 
-#   them
-# Where true_centre==FALSE, observations should match the expected as the same nodes and therefore the same accumulated distance are 
-# used to inform the model predicting centreline elevations
-# Setting the dist_threshold too small will result in observtions not being assigned to normals along the centreline
-test_channel_parabola__piecewise<-function(data_path="C:/GitHub/synthetic_channels/meshing/test_data/fenty_aoi_region/", true_centre=TRUE, piecewise=1, sparse=2, dist_threshold=2000){
-  
-  dat=open_test_data(data_path, as_df=FALSE, sparse=sparse)
-  norm_f=dat[[1]]
-  edge_f=dat[[2]]
-  obs_f=dat[[3]]
-  f_out=dat[[4]]
-  
-  seed_xyz=data.frame(x=-717233,y=-1326743,z=-158)
-  mouth_xyz=data.frame(x=-700582,y=-1358375,z=-920)
-
-  dat_out=channel_parabola__piecewise(norm_f, edge_f, obs_f, f_out, seed_xyz, mouth_xyz, true_centre=true_centre, piecewise=piecewise, dist_threshold=dist_threshold)
-  
-  elev_mesh=as.data.frame(dat_out[1]) # normal and centreline points with assigned elevations
-  xyz=as.data.frame(dat_out[2]) # points used to define the piece-wise model - if true_centre==TRUE, then these will be the EXACT centre (x,y) (not the nearest mesh node equvalents), otherwise they will be the mapped cl(x,y) positions
-
-
-  ######################################
-  ## EVERYTHING BELOW IS FOR PLOTTING ##
-  ######################################
-
-  if (true_centre==TRUE){
-    if (piecewise==1){   
-      if (sparse==2){
-        opath=paste0(data_path, "plots_OBS_true_centre__piecewise/")
-      } else if (sparse==1){
-        opath=paste0(data_path, "plots_OBS_true_centre__piecewise__SPARSE/")
-      } else if (sparse==0){
-        opath=paste0(data_path, "plots_OBS_true_centre__piecewise__NO_OBS/")
-      }
-    } else {
-      if (sparse==2){
-        opath=paste0(data_path, "plots_OBS_true_centre__linear/")
-      } else if (sparse==1){
-        opath=paste0(data_path, "plots_OBS_true_centre__linear__SPARSE/")
-      } else if (sparse==0){
-        opath=paste0(data_path, "plots_OBS_true_centre__linear__NO_OBS/")
-      }
-    }   
-  } else if (true_centre==FALSE){  
-    if (piecewise==1){
-      if (sparse==2){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__piecewise/")
-      } else if (sparse==1){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__piecewise__SPARSE/")
-      } else if (sparse==0){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__piecewise__NO_OBS/")
-      }
-    } else {
-      if (sparse==2){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__linear/")
-      } else if (sparse==1){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__linear__SPARSE/")
-      } else if (sparse==0){
-        opath=paste0(data_path, "plots_OBS_mapped_centre__linear__NO_OBS/")
-      }
-    }
-  }
-
-  dir.create(opath, recursive=TRUE)
-
-  #plot the parabola for a given fid
-  for (fid in min(elev_mesh$cl_id):max(elev_mesh$cl_id)){
-     
-    elevs_sample=subset(elev_mesh, elev_mesh$cl_id==fid)
-    elevs_sample_LEFT=subset(elevs_sample, elevs_sample$side==2)
-    elevs_sample_RIGHT=subset(elevs_sample, elevs_sample$side==1)
-    centre_point=data.frame(dist=0, cl_elev=unique(elevs_sample_RIGHT$cl_elev)) # NOT NECESSARILY IN THE MIDDLE - has an x value of 0 on the axis for which the parabola was calculated
-
-    elevs_sample_LEFT$type="Left normals"
-    elevs_sample_RIGHT$type="Right normals"
-    centre_point$type="Mapped Centre (0)"
-
-    # create output plot file
-    FORMATC <- function(x) formatC(x, width = 3,flag = 0) # pad numbers
-    ofile=paste0(opath, FORMATC(fid), "_parabola_plot_fid_", ".png")
-     
-    dir.create(dirname(ofile), recursive=TRUE)
-    parab_plot=ggplot(elevs_sample_LEFT, aes(cl_dist_l, norm_elev, colour=type)) +
-      geom_point() +
-      geom_point(data=elevs_sample_RIGHT, aes(cl_dist_l*-1, norm_elev, colour=type)) +
-      geom_point(data=centre_point, aes(dist, cl_elev, colour=type)) +
-      ggtitle(paste0("FID: ", fid))
-     
-    ggsave(parab_plot, file=ofile)
-     
-   }
-
-  # Plot piece-wise model fit
-  ofile=paste0(opath, "linear_model_check.png")
-
-
-  if (piecewise==1){
-    piecewise_check_plot=check_obs_against_centreline_model(xyz, elev_mesh, seed_xyz, mouth_xyz, true_centre=true_centre, piecewise=piecewise, verbose=verbose)
-    ggsave(piecewise_check_plot, file=ofile)
-  } else { 
-   # plot fit to linear model....
-   linear_check_plot=check_obs_against_centreline_model(xyz, elev_mesh, seed_xyz, mouth_xyz, true_centre=true_centre, piecewise=piecewise, verbose=verbose)
-   ggsave(linear_check_plot, file=ofile)
-  }
-    
-}
-
-#' Runs test_channel_parabola__piecewise() for various test cases
-run_test_channel_parabola__piecewise<-function(){
-  # Lots of obs
-  test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1)  # piecewise
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1) # piecewise
-  #test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0)  # linear
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0) # linear
-
-  # Some obs
-  test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1, sparse=1, dist_threshold=2000)  # piecewise + sparse
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1, sparse=1, dist_threshold=2000) # piecewise + sparse
-  #test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0, sparse=1)  # linear + sparse
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0, sparse=1) # linear + sparse
-
-  # No obs
-  test_channel_parabola__piecewise(true_centre=TRUE, piecewise=1, sparse=0)  # piecewise + no obs
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=1, sparse=0) # piecewise + no obs
-  #test_channel_parabola__piecewise(true_centre=TRUE, piecewise=0, sparse=0)  # linear + no obs
-  #test_channel_parabola__piecewise(true_centre=FALSE, piecewise=0, sparse=0) # linear + no obs
-}
-
 #' Calculate elevations along a channel cross section based on knonw edge elevations and a known centreline elevation
 #' Data expected in specific formats:
 #' df: x,y,cl_x,cl_y,cl_id,cl_dist_r,cl_dist_l,path,side
@@ -578,7 +365,7 @@ set_elevations <- function(df, df_edge, fid, out_df, count, last_indx_counter, c
       # When referring to the end output dataframe, by solely using the distances of points either side of the centre, as a 
       # correction is added to deal with the true centre vs the centre used to create the mesh points, where sides are of different 
       # length, the elevation won't increase immediately from the known input centre elevation as the distances from the centre are arbitrary
-      # --- furthermore, the centre elevation isn;t the deepest - where one edge elevation is lower than the other, the deepest part of the 
+      # --- furthermore, the centre elevation isn't the deepest - where one edge elevation is lower than the other, the deepest part of the 
       # parabola will actually be closer to the lower edge
       
       row_est=400
@@ -986,15 +773,6 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
 
         if (count == 0){ # i.e this is the first centreline fid being considered...
                   
-          # Distance of first cl (x,y) from the seed
-     
-          #POINT1_XYZ=data.frame('x'=centre_node_x[count+1],'y'=centre_node_y[count+1], 'z'=0)
-          #seed_xyz_temp<-seed_xyz
-          #colnames(seed_xyz_temp)<-c('x','y','z')
-          #temp=rbind(seed_xyz_temp, POINT1_XYZ)
-          ##cumulative_dist_between_centrenodes[count+1]=cumulative_dist(temp, verbose=verbose)[2,4] # output is both points (2 rows)  - you want the dist of the second row from the 1st (held in second row, fourth column)
-          #dists_CHECK[count+1]=cumulative_dist(temp, verbose=verbose)[2,4]
-
           cumulative_dist_between_centrenodes[count+1]=0 # start accumulating distance from here
           dists_CHECK[count+1]=0
 
@@ -1071,7 +849,7 @@ channel_parabola__piecewise <- function(normal_points_FILE, edge_elevations_FILE
       # although the true centre is important for defining the [parabola but the specific point between the bank edges is not likely cleanly 
       # divisbile by 2 - thus, as the bank distances from 0 have been used to calc the parabola (setting its x xaxis range), we now 
       # have to calculate a value at 0 to have a complete chain of points - whether it is the centre or not is now irrelevant
-      # -- see x_val setting for defing cl_elev in set_elevations() (to have the following plot straight, this x_val would be assigned the 
+      # -- see x_val setting for defINing cl_elev in set_elevations() (to have the following plot straight, this x_val would be assigned the 
       # precise midpoint between the two edges which does not necessaily match the spacing of the points along the normal)
      
 

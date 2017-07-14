@@ -1,8 +1,6 @@
-#!/usr/bin/python
-
-###########################
 # Program: Linear_referencing_FUNCTION.py
-###########################
+#
+# @author Chris Williams
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,7 +15,6 @@ wgs84 = pyproj.Proj("+init=EPSG:4326")# +no_defs=True")
 utm22n = pyproj.Proj("+init=EPSG:32622")# +no_defs=True")
 bamber_npstereo = pyproj.Proj("+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs")
 
-#infile="C:/GitHub/synthetic_channels/test_output/site_6_PATHS/path_5.csv"
 def densify(infile, desired_spacing=200., projection=pyproj.Proj("+init=EPSG:4326"), out_dir='', xy_cols=[3,4], plotting=True, save=True):
 	"""
 	Takes in a set of xy points (make sure they are sorted) and, treating the points as a continuous path, 

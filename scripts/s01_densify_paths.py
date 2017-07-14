@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Program: densify_paths.py
+Program: *_densify_paths.py
 
 Takes in paths output from the pathfinder algorithm and creates additional points 
 along the paths at a user set spacing (desired_spacing << units in m)

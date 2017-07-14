@@ -1,3 +1,10 @@
+# Program: *mask_clip.r
+# Functions to clip coverage of the synthetic mesh keeping points within the channel according to a mask
+# Also limits overflow into other channels at confluences
+#
+# @author Chris Williams
+# @date: 08/03/16
+
 if (!require("raster")) install.packages("raster")
 if (!require("sp")) install.packages("sp")
 if (!require("ggplot2")) install.packages("ggplot2")

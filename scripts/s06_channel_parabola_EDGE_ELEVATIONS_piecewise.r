@@ -1,20 +1,11 @@
-#########################################################
-# Program: 12c_channel_parabol_EDGE_ELEVATIONS.r
+# Program: *_channel_parabola_EDGE_ELEVATIONS_piecewise.r
 #
-# Calculates depths (i.e. below zero) along each provided profile using a fixed maximum valley depth
-# This can (and where possible, should) be modified to estimate parabola on observations by changing your known points from the fixed maximum valley depth as below (see python code)
+# Calculates depths along each provided profile 
+# Parabola accounts for edge elvations, centreline elevations and any observations
 # 
-# This example subsets data to deal with a specific line (see 03_parabola_elevations_per_line_BULK.r for multiple line processing)
-#
-# IMPORTANT:
-# A catch exists whereby the mid depth must always be lower than the edge elevations - currently (31st March 2016), the mid elevation is forced to a lower elev if the absolute diff 
-# between the centre and the lowest edge is within a trheshold - A BETTER WAY would be to ensure the parabola meets a certain form (a value defining its order) - this is ALSO partly 
-# an issue relating to the edge elevations which may change if you use the GIMP data directly (see top of script 05b*.py)
 #
 # @author: Chris Williams 
 # @date: 31/03/16
-# @version: 1.2
-#########################################################
 
 if (!require("raster")) install.packages("raster")
 if (!require("FNN")) install.packages("FNN")
@@ -44,14 +35,10 @@ subset_points_by_dist<-function(obs, other, pnt, dist, type='LT'){
   other$dist=extract(dist, other)
   pnt$dist=extract(dist, pnt)
 
-  #as.data.frame(other)  
-  #as.data.frame(pnt)
-
   if (nrow(obs)>1){
     coordinates(obs)<- ~x+y
     crs(obs)=dist@crs
     obs$dist=extract(dist, obs)
-    #as.data.frame(obs)
   } 
   
   if (type=="LT"){

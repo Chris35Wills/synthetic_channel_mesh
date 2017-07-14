@@ -1,7 +1,7 @@
 #!/bin/usr/python
 
 """
-Program : get_channel_bank_elevation.py
+Program : *_get_channel_bank_elevation.py
 
 Assigns an elevation value to each of the edge points of each channel normal line 
 created as part of the channel profile mesh program (02....), which is then modified using 
@@ -12,22 +12,6 @@ Elevations are assigned to the edge points by considering the elevation of the n
 neighbour from the bamber DEM (as points) to the channel edge points. This will ensiure that 
 when creating the parabola for each normal in the channel mesh (06_channel_parabola.py), the 
 edge points will tie in with the exitsing DEM.
-
-1. Reads in the Bamber DEM points (AOI specific) |	 THESE SHOULD BY THIS POINT BE A SINGLE 
-2. Reads in the Morlighem points (AOI specific)  |   DATASET (see 07_get_morlighem_points_within aoi.py)
-
-IMPORTANT: The bamber points are clipped by the mask - these "points" are extracted from the bamber bed 
-surface interpolation - despite being clipped, there may still be some inetrpolation bleed at the edges 
-(the points of which have been influenced by the overall interpolation steps applied (Bamber et al., 2013)
-- consequently, these edges may be lower than the GIMP altimetry points that are available at these bank 
-edge locations - it may be prudent to use these in future instead of the Bamber DEM (or at least us an 
-updated  version of the Bamber DEM and have some idea of the offset between teh GIMP DEM on land and the 
-Bamber DEM product)
-
-3. Calculates the nearest neighbour
-4. Appends elevations to end points (nothing appended if not an endpoint)
-
-NB/ end points will be the max (and) min distance from the centreline for a given ID
 
 @author : Chris Williams
 @date   : 30/03/16

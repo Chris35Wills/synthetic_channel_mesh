@@ -1,15 +1,13 @@
 ##############################
-# Program: 02_centreline_normal_development_NOT_EQUIDISTANT_smoothing.r
+# Program: *_centreline_normal_development_NOT_EQUIDISTANT_smoothing.r
 #
-# Same as 01_centreline_normal_development_NOT_EQUIDISTANT.r but calculates the vector to which normals 
-# are relative to, based on neighbours that are further from the point within the iteration loop (i.e. 
-# for point x, calculate vector using points x-n and x+n as opposed to x+1 and x-1). Not using this smoothing 
-# approach makes the normals very sensitive to the fairly coarse centreline construction, making them cross 
-# over each other all over the palce... >> this filtering step is very similar to that used in Goff and Nordfjord, 2004.
+# Calculates the vector between centreline points to which normals are relative to, based on neighbours that are further f
+# from the point within the iteration loop (i.e.  for point x, calculate vector using points x-n and x+n as opposed to x+1 
+# and x-1). Not using this smoothing  approach makes the normals very sensitive to the fairly coarse centreline construction, 
+# making them cross over each other all over the palce... >> this filtering step is very similar to that used in Goff and Nordfjord (2004).
 #
 # Calculates channel width relative to the normal of a centreline point consideiring 
-# the centreline preceding and succeding neighbours. Points are constructed along the 
-# normal for a width of xx m. The nearest neighbour to the points along the normal 
+# the centreline preceding and succeding neighbours. The nearest neighbour to the points along the normal 
 # selected from the edge points is selected and its distance is calculated relative to 
 # the centreline point. This distance is doubled to give channel width. The relationship 
 # between width and length along the channel is also calculated.
@@ -20,7 +18,8 @@
 # 
 # This is very helpful (considering my mathsiness...): http://stackoverflow.com/questions/7469959/given-2-points-how-do-i-draw-a-line-at-a-right-angle-to-the-line-formed-by-the-t/7470098#7470098
 #
-# @ Chris Williams (+help from Dom Huelse and Alba Martin) 10/11/15
+# @author Chris Williams (+help from Dom Huelse and Alba Martin) 
+# @date 10/11/15
 ##############################
 
 if (!require("sp")) install.packages("sp")
@@ -175,24 +174,8 @@ vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbo
 				w_right_j_unit=(1/w_right_len)*right_norm_y
 
 				###### Step 7
-				##calc a single point along both normals
-				#spacing=0.5
-
-				#pnt_norm_right_x=(w_right_i_unit*spacing)+pnt_twixt[1]
-				#pnt_norm_right_y=(w_right_j_unit*spacing)+pnt_twixt[2]
-				#pnt_norm_right_xy = c(pnt_norm_right_x, pnt_norm_right_y)
-				##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-				#pnt_norm_left_x=(w_left_i_unit*spacing)+pnt_twixt[1]
-				#pnt_norm_left_y=(w_left_j_unit*spacing)+pnt_twixt[2]
-				#pnt_norm_left_xy = c(pnt_norm_left_x, pnt_norm_left_y)
-
-
-				###### Step 7
 				#create 2km worth of points either site of pnt_twixt
-				#create points every 100m
-				
-				#for (ii in 1:num_points){ # <<< this overwrites the first 1->num_points rows of the left and right point matrixes each time
-				
+										
 				i_strt=i-vector_pnt_spacing # this assumes i starts at 2 and is only used to ensure the top columns of the outoput list are populated (if you don't believe me, replace "i_strt" with i and see what happens)
 				#spacing=100.
 
@@ -209,13 +192,6 @@ vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbo
 					########################
 
 					dist=steps_made*spacing # this should range by the number of steps and NOT the row indices
-					#print(dist)
-
-					#r_right_i=(r_right_norm_i*dist)+pnt_twixt[2]
-					#r_right_j=(r_right_norm_j*dist)+pnt_twixt[1]
-
-					#r_left_i=(r_left_norm_i*dist)+pnt_twixt[2]
-					#r_left_j=(r_left_norm_j*dist)+pnt_twixt[1]
 
 					pnt_norm_right_x=(w_right_i_unit*dist)+pnt_twixt[1]
 					pnt_norm_right_y=(w_right_j_unit*dist)+pnt_twixt[2]
@@ -224,14 +200,12 @@ vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbo
 					pnt_norm_left_y=(w_left_j_unit*dist)+pnt_twixt[2]
 
 					#append to lists...
-					#r_normal_pnts_from_m_list[ii,]<-c(pnt_norm_right_x, pnt_norm_right_y, pnt_norm_left_x, pnt_norm_left_y,pnt_twixt[1],pnt_twixt[2],i,pnt_a[1],pnt_a[2],pnt_b[1],pnt_b[2]) # nb/ i in the 7th colum is the position in the array of the centreline points NOT necessarily the FID
 					normal_pnts_from_m_list[ii,]<-c(pnt_norm_right_x, pnt_norm_right_y, pnt_norm_left_x, pnt_norm_left_y,pnt_twixt[1],pnt_twixt[2],i) # nb/ i in the 7th colum is the position in the array of the centreline points NOT necessarily the FID
 				
 				}
 			}
 
 			# Remove NaN values from dataframe
-			#colnames(r_normal_pnts_from_m_list)<-c("x_right","y_right","x_left","y_left","cl_x","cl_y","cl_id","a_x","a_y","b_x","b_y")
 			normal_pnts_from_m_list<-na.omit(normal_pnts_from_m_list) # remove NaNs
 
 			##################
@@ -256,13 +230,11 @@ vector_from_norms<-function(in_path, out_path, file_glob="densified*.csv", verbo
 
 			path<-file_counter
 
-			#normal_pnts_from_m_list<-cbind(normal_pnts_from_m_list, dist_r, dist_l)
+
 			normal_pnts_from_m_list<-cbind(normal_pnts_from_m_list, dist_r, dist_l, path)
-			#colnames(normal_pnts_from_m_list)<-c("x_right","y_right","x_left","y_left","cl_x","cl_y","cl_id","cl_dist_r","cl_dist_l")
 			colnames(normal_pnts_from_m_list)<-c("x_right","y_right","x_left","y_left","cl_x","cl_y","cl_id","cl_dist_r","cl_dist_l","path")
 
 			fout=capture.output(cat(out_path,"/", file_no_ext, "_normals_avg_", vector_pnt_spacing,"_pnts_", vector_smoothing_window_m_equiv, "m.csv", sep=""))
-			#fout=capture.output(cat("C:/Github/synthetic_channels/test_output/test_meshing/r_left_and_right_from_m_list_non_equidistant_vector_avg_", vector_pnt_spacing,"_pnts_", vector_smoothing_window_m_equiv, "m_TEST_KINKED.csv", sep=""))
 			dir.create(dirname(fout), showWarnings=FALSE) # create folder if it doesn't exist
 
 			cat("Writing to file...\n") 

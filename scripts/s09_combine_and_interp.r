@@ -1,3 +1,9 @@
+# Program: *combine_and_interp.r
+# Functions for quick interp of points and plotting
+#
+# @author Chris Williams
+# @date 14/07/17
+
 if (!require(akima)) install.packages("akima")
 if (!require(raster)) install.packages("raster")
 if (!require(rasterVis)) install.packages("rasterVis")

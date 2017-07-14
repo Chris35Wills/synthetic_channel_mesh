@@ -1,14 +1,7 @@
-
-# #########################################################
-# Program: 08_spline_all_points.r
+# Program: *_spline_all_points.r
 #
-# Reads in all points for development of the complete DEM (fitting a single spline to everything*)
+# Functions to rasterize synthetic xyz
 # 
-# Only uses points of one channel at a time - each grid being saved separately
-#
-# * in future, this will more likely be modified in future merging an interpolation of the channels 
-#   with the surface dem interpolation (each portion of the dem having been inyterpolated independently)
-#
 # @Chris Williams 01/04/16
 #########################################################
 

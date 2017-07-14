@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-Progam: 04_mask_clip.py
+Progam: *_restructure_data.py
 
-Restructures output of 01_densify_paths.py for input to 05_mask_clip.py
+Restructures data providing side (left or right of centreline) identifiers
 
 @author: Chris Williams
 @date: 08/03/16

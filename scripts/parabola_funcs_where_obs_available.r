@@ -1,3 +1,10 @@
+##############################
+# Program: parabola_functions_where_obs_available.r
+#
+# Various functions for calculation of cross-profile channel parabola
+#
+# @author Chris Williams
+
 if (!require("FNN")) install.packages("FNN")
 if (!require("sp")) install.packages("sp")
 if (!require("ggplot2")) install.packages("ggplot2")
@@ -186,9 +193,6 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
             centre_y[count]=norm_inst$cl_y[1]
             centre_fids[count]=cl_id
 
-            # print(paste0("cl_id nearest to observation: ", cl_id))
-            # print(paste0("Nearest observation: ", digitized_centre_depth))
-
           } else if (true_centre==TRUE){
 
             ############
@@ -207,8 +211,6 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
             centre_x[count]=true_centre_xy[1]
             centre_y[count]=true_centre_xy[2]
             centre_fids[count]=cl_id
-
-            # print(paste0("Nearest observation: ", true_centre_depth))
 
           }
         }
@@ -259,10 +261,6 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
   }
 
   }
-#  centre_elevs=na.omit(centre_elevs)#[,1]
-#  centre_fids=na.omit(centre_fids)#[,1]
-#  centre_x=na.omit(centre_x)#[,1]
-#  centre_y=na.omit(centre_y)#[,1]
 
   #centre_elevs <- within(centre_elevs, centre_elevs[centre_elevs==4] <- NA)
   if (verbose==1){cat("Writing elevs to dataframe\n")}
@@ -275,10 +273,6 @@ parabola_centreline_elev_from_OBS <- function(df_norm, df_edge, df_obs, verbose=
   elevs_fid_df$centre_elevs[elevs_fid_df$centre_elevs==-9999] <- NA 
   # set any -9999 values to NA (these are the centre nodes with no enarest observation)
   elevs_fid_df=na.omit(elevs_fid_df)
-  #ggplot(elevs_fid_df, aes(centre_fids, centre_elevs)) +
-  #      geom_point() +
-  #      geom_smooth(method = "lm", se = FALSE) + 
-  #      ggtitle("Elevations from parabolas constructed \nwhere normals are near to observations")
 
   return(elevs_fid_df)
   
@@ -580,16 +574,6 @@ piecewise_model_elevation<-function(xyz, xout, plotting=TRUE){
     print(paste0("Max cumualtive dist: ", max(x)))
     print(paste0("Provided distance: ", xout))
     }
-
-
- # par(mfrow = c(1,1))
- # plot(x, y, main = "approx(.) and approxfun(.)")
- # points(approx(x, y), col = 2, pch = "*")
- # points(approx(x, y, method = "constant"), col = 4, pch = "*")
-
-  
- # mod=curve(f(x-10), min(xyz$cumulative_dist), max(xyz$cumulative_dist), col = "green2")
- # points(x, y)
 
   return(f(xout))
 }

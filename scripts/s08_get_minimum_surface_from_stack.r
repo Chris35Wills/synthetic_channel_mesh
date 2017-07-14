@@ -1,14 +1,9 @@
-# Program: 14c_get_minimum_surface_from_stack.r
+# Program: *_get_minimum_surface_from_stack.r
 # Create a new raster just of the minimum values of all single channel rasters, compiled into a stack
 # Min surface should elimnate ridges where channels overlap
 #
-# Help and reading:
-# http://www.inside-r.org/node/93677
-# http://www.inside-r.org/packages/cran/raster/docs/stackSelect
-# https://stat.ethz.ch/pipermail/r-sig-geo/2013-October/019572.html
-#
-#@author Chris Williams
-#@date 27/04/16
+# @author Chris Williams
+# @date 27/04/16
 
 if (!require("raster")) install.packages("raster")
 
@@ -20,8 +15,8 @@ check_rasters_for_all_zeros<-function(ras_path, ras_glob_name){
 	for (ras in rasList){
 		
 		a_raster=raster(ras)
-		if (minValue(a_raster) == maxValue(a_raster)){  ### change this to a range check... omit NA
-			empty_rasters=rbind(empty_rasters, ras) # append to list
+		if (minValue(a_raster) == maxValue(a_raster)){  
+			empty_rasters=rbind(empty_rasters, ras) 
 		}
 	}
 
@@ -49,7 +44,7 @@ check_rasters_for_all_zeros<-function(ras_path, ras_glob_name){
 get_min_from_stack<-function(raster_path, raster_glob, opath){
 	
 	raster_path_list=Sys.glob(paste0(raster_path, raster_glob))
-	ras_stack=stack(raster_path_list) #create raster stack
+	ras_stack=stack(raster_path_list) 
 
 	#define raster projections
 	coords<-"+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-39 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs"
