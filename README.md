@@ -2,11 +2,11 @@
 
 [![DOI](https://zenodo.org/badge/95893204.svg)](https://zenodo.org/badge/latestdoi/95893204)
 
-The code provided enables the creation of points with assigned elevations to populate channels where only the centreline is mapped. This is achieved by creating points normal to the centreline of a channel up to its banks, the extent of which is constrained by a land classification mask. 
+The code provided enables the creation of points with assigned elevations to populate channels where only the centreline has been prior mapped. This is achieved by creating points normal to the centreline of a channel up to its banks, the extent of which is constrained by a land classification mask. 
 
 <img src="./figs/mesh_normal_method.png" width="300px" />
 
-The long profile elevation trend of the channel is derived from elevations at the head and mouth of the channel, including also any point observations within the channel. Where the centreline itself has only a known elevation at the head and mouth of its length, the long profile elevation trend is simply linear. The cross-profile is constructed as a second order polynomial, using elevations at either edge (using the nearest observed elevations) and the centreline elevation. The meshing procedure is described in [Williams et al., 2017](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html).
+The long profile elevation trend of the channel is derived from elevations close to or at the head and mouth of the channel, including also any point observations within the channel. Where the centreline itself has only a known elevation at the head and mouth of its length, the long profile elevation trend is simply linear. The cross-profile is constructed as a second order polynomial, using elevations at either edge (using the nearest observed elevations) and the centreline elevation. The meshing procedure is described in [Williams et al., 2017](http://www.the-cryosphere.net/11/363/2017/tc-11-363-2017.html).
 
 Image of example elevation surface before integration of synthetic channel...
 
